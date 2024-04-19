@@ -22,7 +22,7 @@
       abbr --add nr --set-cursor "nix run nixpkgs#%"
       abbr --add nvim "${neovim-cmd}"
       abbr --add hm "home-manager --flake ~/dotfiles/home-manager"
-      set EDITOR "${neovim-cmd}"
+      set EDITOR "nix run github:mikidep/neovim --"
     '';
     plugins = [
       {
