@@ -69,6 +69,12 @@
             version = "1.2.5";
             sha256 = "sha256-/CLxBXXdUfYlT0RaGox1epHnyAUlDihX1LfT5wGd2J8=";
           }
+          {
+            name = "idris-vscode";
+            publisher = "meraymond";
+            version = "0.0.14";
+            sha256 = "sha256-QAzjm+8Z+4TDbM5amh3UEkSmp0n8ZlRHYpUGAewIVXk=";
+          }
         ];
     userSettings = {
       "workbench.colorTheme" = "Pitch Black";
@@ -95,6 +101,8 @@
       "nix.serverSettings".nil.formatting.command = [
         "${pkgs.alejandra}/bin/alejandra"
       ];
+      "idris.idris2Mode" = true;
+      "idris.idrisPath" = "idris2";
     };
     languageSnippets = {
       agda = {

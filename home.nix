@@ -18,13 +18,12 @@
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
     (agda.withPackages (p: [p.cubical p.standard-library]))
+    idris2
     stack
-    nerdfonts
     archivemount
     nnn
     trashy
     feh
-    v2raya
 
     chromium
     discord
@@ -37,14 +36,23 @@
     ffmpeg_6-full
     audacity
     okular
-
+    (
+      nerdfonts.override {
+        fonts = ["Arimo" "Iosevka"];
+      }
+    )
     alsa-tools
     qpwgraph
     reaper
+    zeal
   ];
-
-  fonts.fontconfig.enable = true;
-
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      sansSerif = ["Arimo NF"];
+      monospace = ["IosevkaTerm NFM"];
+    };
+  };
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
@@ -57,8 +65,9 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  programs.kitty.enable = true;
+  programs.kitty = {
+    enable = true;
+  };
   programs.git = {
     enable = true;
     userName = "Michele De Pascalis";

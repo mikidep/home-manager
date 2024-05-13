@@ -2,7 +2,8 @@
   home.packages = with pkgs; [
     htop
     fortune
-
+    autojump
+    bat
     killall
   ];
   programs.fish = {
@@ -22,18 +23,19 @@
       abbr --add nr --set-cursor "nix run nixpkgs#%"
       abbr --add nvim "${neovim-cmd}"
       abbr --add hm "home-manager --flake ~/dotfiles/home-manager"
+      abbr --add cat bat
       set EDITOR "nix run github:mikidep/neovim --"
     '';
     plugins = [
-      {
-        name = "z";
-        src = pkgs.fetchFromGitHub {
-          owner = "jethrokuan";
-          repo = "z";
-          rev = "85f863f";
-          sha256 = "sha256-+FUBM7CodtZrYKqU542fQD+ZDGrd2438trKM0tIESs0=";
-        };
-      }
+      # {
+      #   name = "z";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "jethrokuan";
+      #     repo = "z";
+      #     rev = "85f863f";
+      #     sha256 = "sha256-+FUBM7CodtZrYKqU542fQD+ZDGrd2438trKM0tIESs0=";
+      #   };
+      # }
       {
         name = "nix-env.fish";
         src = pkgs.fetchFromGitHub {

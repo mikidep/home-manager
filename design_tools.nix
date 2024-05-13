@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  home.packages = with pkgs; [openscad freecad prusa-slicer];
+  home.packages = with pkgs; [openscad prusa-slicer];
 
   home.file.BOSL2 = {
     source = let
