@@ -45,6 +45,7 @@
     enable = true;
     settings = {
       color = "000000";
+      indicator-idle-visible = true;
     };
   };
 
