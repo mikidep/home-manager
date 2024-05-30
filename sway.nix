@@ -5,7 +5,11 @@
   bg,
   ...
 }: {
-  home.packages = with pkgs; [swaybg swaynotificationcenter];
+  home.packages = with pkgs; [
+    swaybg
+    swaynotificationcenter
+    sway-contrib.grimshot
+  ];
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -80,11 +84,16 @@
     ];
   };
 
+  programs.swayr = {
+    enable = true;
+    systemd.enable = true;
+  };
   wayland.windowManager.sway = let
     rofi = "${pkgs.rofi-wayland}/bin/rofi";
     rofi-pm = ''${pkgs.rofi-power-menu}/bin/rofi-power-menu'';
     rofi-menu = ''${rofi} -show combi -combi-modes "pm:${rofi-pm},window,drun" -show-icons -theme solarized'';
     rofi-run = ''${rofi} -show run -theme solarized'';
+    terminal = "${pkgs.kitty}/bin/kitty";
     # currently, there is some friction between sway and gtk:
     # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
     # the suggested way to set gtk settings is with gsettings
@@ -153,7 +162,7 @@
         };
 
         window.titlebar = false;
-        terminal = "kitty";
+        inherit terminal;
         menu = rofi-menu;
         modifier = "Mod4";
 
@@ -231,10 +240,12 @@
           // (
             let
               unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
+              grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
             in {
               "Alt+F2" = "exec ${rofi-run}";
               "Mod4+space" = "exec ${rofi-menu}";
 
+              "Print" = "exec ${grimshot} copy anything";
               "XF86AudioRaiseVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
               "XF86AudioLowerVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
               "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s +10%";
@@ -257,8 +268,8 @@
       workspace number 1
       exec firefox
       workspace number 2
-      exec kitty
-      workspace number 9
+      exec ${terminal}
+      workspace number 20
       exec telegram-desktop
       exec ${launch} whatsapp
     '';

@@ -36,18 +36,18 @@ in {
       isDefault = true;
       settings = {
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        "layers.acceleration.force-enabled" = true;
+        "gfx.webrender.all" = true;
+        "gfx.webrender.enabled" = true;
+        "layout.css.backdrop-filter.enabled" = true;
+        "svg.context-properties.content.enabled" = true;
+        "network.protocol-handler.external.mailto" = false;
       };
-      userChrome = ''
-        #TabsToolbar {
-          visibility: collapse;
-        }
-
-        #statuspanel {
-          opacity: 0.5 !important;
-        }
-      '';
+      userChrome = builtins.readFile ./assets/userChrome.css;
     };
   };
+
+  programs.zathura.enable = true;
 
   imports = [
     ./sway.nix
@@ -89,7 +89,7 @@ in {
         constVals = ks: v: lib.attrsets.genAttrs ks (lib.trivial.const v);
       in
         {
-          "application/pdf" = "okularApplication_pdf.desktop";
+          "application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
         }
         // (constVals [
           "x-scheme-handler/http"

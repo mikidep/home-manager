@@ -35,7 +35,6 @@
     signal-desktop
     ffmpeg_6-full
     audacity
-    okular
     (
       nerdfonts.override {
         fonts = ["Arimo" "Iosevka"];
@@ -65,9 +64,6 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  programs.kitty = {
-    enable = true;
-  };
   programs.git = {
     enable = true;
     userName = "Michele De Pascalis";
