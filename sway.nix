@@ -162,6 +162,12 @@
         };
 
         window.titlebar = false;
+        window.commands = [
+          {
+            command = "layout tabbed";
+            criteria.app_id = "org.pwmt.zathura";
+          }
+        ];
         inherit terminal;
         menu = rofi-menu;
         modifier = "Mod4";

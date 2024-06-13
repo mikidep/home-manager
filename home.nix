@@ -4,6 +4,7 @@
     ./shell.nix
     ./ssh.nix
     ./design_tools.nix
+    ./matterlabs.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -61,6 +62,11 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "23.05";
+
+  nix = {
+    package = pkgs.nix;
+    settings.experimental-features = ["nix-command" "flakes"];
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
