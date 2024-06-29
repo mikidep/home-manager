@@ -15,6 +15,26 @@
       url = "github:mikidep/sway-new-workspace";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sway-workspace = {
+      url = "github:matejc/sway-workspace";
+      flake = false;
+    };
+    nix-env-fish = {
+      url = "github:lilyball/nix-env.fish";
+      flake = false;
+    };
+    BOSL2 = {
+      url = "github:BelfrySCAD/BOSL2";
+      flake = false;
+    };
+    lasercut-box-openscad = {
+      url = "github:larsch/lasercut-box-openscad";
+      flake = false;
+    };
+    swayws = {
+      url = "github:mikidep/swayws";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -33,6 +53,8 @@
     homeConfigurations.mikidep = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
+      extraSpecialArgs = {inherit inputs;};
+
       # Specify your home configuration modules here, for example,
       # the path to your home.nix.
       modules = with inputs; [
@@ -43,6 +65,7 @@
           nixpkgs.overlays = [
             (_: _: {
               sway-new-workspace = sway-new-workspace.packages.${system}.default;
+              swayws = swayws.packages.${system}.default;
             })
           ];
         }

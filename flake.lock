@@ -1,5 +1,82 @@
 {
   "nodes": {
+    "BOSL2": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719115093,
+        "narHash": "sha256-miTpc3DN3w/+R8XfeKMx776FNlwMtchWKupzazD5wcY=",
+        "owner": "BelfrySCAD",
+        "repo": "BOSL2",
+        "rev": "17e307fdb480e89009176637a40e5f00bf5e6bbc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BelfrySCAD",
+        "repo": "BOSL2",
+        "type": "github"
+      }
+    },
+    "crane": {
+      "inputs": {
+        "nixpkgs": [
+          "swayws",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1698166613,
+        "narHash": "sha256-y4rdN4flxRiROqNi1waMYIZj/Fs7L2OrszFk/1ry9vU=",
+        "owner": "ipetkov",
+        "repo": "crane",
+        "rev": "b7db46f0f1751f7b1d1911f6be7daf568ad5bc65",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ipetkov",
+        "repo": "crane",
+        "type": "github"
+      }
+    },
+    "fenix": {
+      "inputs": {
+        "nixpkgs": [
+          "swayws",
+          "nixpkgs"
+        ],
+        "rust-analyzer-src": "rust-analyzer-src"
+      },
+      "locked": {
+        "lastModified": 1698906096,
+        "narHash": "sha256-xXsjyprR3xhv7V+0Tf4IDFEbGafwAvoK40900UYLkDY=",
+        "owner": "nix-community",
+        "repo": "fenix",
+        "rev": "2634e2ffc5501957922285a87a83e430d8bc29cb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "fenix",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1694529238,
+        "narHash": "sha256-zsNZZGTGnMOf9YpHKJqMSsa0dXbfmxeoJ7xHlrt+xmY=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "ff7b65b44d01cf9ba6a71320833626af21126384",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -7,16 +84,48 @@
         ]
       },
       "locked": {
-        "lastModified": 1715486357,
-        "narHash": "sha256-4pRuzsHZOW5W4CsXI9uhKtiJeQSUoe1d2M9mWU98HC4=",
+        "lastModified": 1719438532,
+        "narHash": "sha256-/Vmso2ZMoFE3M7d1MRsQ2K5sR8CVKnrM6t1ys9Xjpz4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "44677a1c96810a8e8c4ffaeaad10c842402647c1",
+        "rev": "1a4f12ae0bda877ec4099b429cf439aad897d7e9",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "lasercut-box-openscad": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1681557149,
+        "narHash": "sha256-L7cOuIUElCttGGPYZadp/1A986HlzMoBHKj1xk6B+vI=",
+        "owner": "larsch",
+        "repo": "lasercut-box-openscad",
+        "rev": "0496a3a6516b91f7c5b02f35b9db21936ef27e01",
+        "type": "github"
+      },
+      "original": {
+        "owner": "larsch",
+        "repo": "lasercut-box-openscad",
+        "type": "github"
+      }
+    },
+    "nix-env-fish": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1638213644,
+        "narHash": "sha256-RG/0rfhgq6aEKNZ0XwIqOaZ6K5S4+/Y5EEMnIdtfPhk=",
+        "owner": "lilyball",
+        "repo": "nix-env.fish",
+        "rev": "7b65bd228429e852c8fdfa07601159130a818cfa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lilyball",
+        "repo": "nix-env.fish",
         "type": "github"
       }
     },
@@ -27,11 +136,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1713067146,
-        "narHash": "sha256-9D20xjblGKEVRVCnM3qWhiizEa9i6OpK6xQJajwcwOQ=",
+        "lastModified": 1719111455,
+        "narHash": "sha256-rnIxHx+fLpydjMQsbpZ21kblUr/lMqSaAtMA4+qMMEE=",
         "owner": "Mic92",
         "repo": "nix-index-database",
-        "rev": "93aed67288be60c9ef6133ba2f8de128f4ef265c",
+        "rev": "4293f532d0107dfb7e6f8b34a0421dc8111320e6",
         "type": "github"
       },
       "original": {
@@ -42,11 +151,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1713297878,
-        "narHash": "sha256-hOkzkhLT59wR8VaMbh1ESjtZLbGi+XNaBN6h49SPqEc=",
+        "lastModified": 1719254875,
+        "narHash": "sha256-ECni+IkwXjusHsm9Sexdtq8weAq/yUyt1TWIemXt3Ko=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "66adc1e47f8784803f2deb6cacd5e07264ec2d5c",
+        "rev": "2893f56de08021cffd9b6b6dfc70fd9ccd51eb60",
         "type": "github"
       },
       "original": {
@@ -57,10 +166,32 @@
     },
     "root": {
       "inputs": {
+        "BOSL2": "BOSL2",
         "home-manager": "home-manager",
+        "lasercut-box-openscad": "lasercut-box-openscad",
+        "nix-env-fish": "nix-env-fish",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
-        "sway-new-workspace": "sway-new-workspace"
+        "sway-new-workspace": "sway-new-workspace",
+        "sway-workspace": "sway-workspace",
+        "swayws": "swayws"
+      }
+    },
+    "rust-analyzer-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1698762780,
+        "narHash": "sha256-WzuwMjpitp41dacdNzrdGjjP72Z0fFyGuQR2PJk48pE=",
+        "owner": "rust-lang",
+        "repo": "rust-analyzer",
+        "rev": "99e94d2938a743f8f48c6b729de4c517eeced99d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rust-lang",
+        "ref": "nightly",
+        "repo": "rust-analyzer",
+        "type": "github"
       }
     },
     "sway-new-workspace": {
@@ -80,6 +211,60 @@
       "original": {
         "owner": "mikidep",
         "repo": "sway-new-workspace",
+        "type": "github"
+      }
+    },
+    "sway-workspace": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1675361985,
+        "narHash": "sha256-4Jyyve9HqiSzE+WGooKnzXjnIG+6HZIolf0P7fo47HU=",
+        "owner": "matejc",
+        "repo": "sway-workspace",
+        "rev": "0ca7c7dbb181919e6d3b1b2a18c82e78df4fb638",
+        "type": "github"
+      },
+      "original": {
+        "owner": "matejc",
+        "repo": "sway-workspace",
+        "type": "github"
+      }
+    },
+    "swayws": {
+      "inputs": {
+        "crane": "crane",
+        "fenix": "fenix",
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719692101,
+        "narHash": "sha256-oJuhQA8IJvzh6iw0l5B/cvj4Wi0+k/8hY8imiykDS0k=",
+        "owner": "mikidep",
+        "repo": "swayws",
+        "rev": "cff04fa244c20fbdc2fe206f62c634f3e844b623",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mikidep",
+        "repo": "swayws",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
         "type": "github"
       }
     }

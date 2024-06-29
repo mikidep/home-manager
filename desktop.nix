@@ -22,11 +22,6 @@ in {
   #   polarity = "dark";
   #   targets.kitty.enable = false;
   # };
-
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [fcitx5-gtk libsForQt5.fcitx5-qt];
-  };
   home.packages = with pkgs; [wl-clipboard];
   programs.firefox = {
     enable = true;
@@ -48,6 +43,9 @@ in {
   };
 
   programs.zathura.enable = true;
+  programs.kitty = {
+    enable = true;
+  };
 
   imports = [
     ./sway.nix

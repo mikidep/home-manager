@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   lib,
   config,
@@ -189,41 +190,33 @@
         # This is quite cursed. See https://github.com/NixOS/nixpkgs/issues/16884
         apply = defaultKb:
           defaultKb
-          // lib.attrsets.mapAttrs'
-          (k: v: {
-            name = "Ctrl+Alt+${k}";
-            value = v;
-          })
-          (
+          // (
             let
-              sway-nw = "${pkgs.sway-new-workspace}/bin/sway-new-workspace";
               sway-workspace = let
-                repo = pkgs.fetchFromGitHub {
-                  owner = "matejc";
-                  repo = "sway-workspace";
-                  rev = "0ca7c7d";
-                  hash = "sha256-4Jyyve9HqiSzE+WGooKnzXjnIG+6HZIolf0P7fo47HU=";
-                };
+                repo = inputs.sway-workspace;
                 pkg = pkgs.rustPlatform.buildRustPackage {
                   name = "sway-workspace";
                   src = repo;
                   cargoSha256 = "sha256-DRUd2nSdfgiIiCrBUiF6UTPYb6i8POQGo1xU5CdXuUY=";
                 };
               in "${pkg}/bin/sway-workspace";
+              swayws = "${pkgs.swayws}/bin/swayws";
               movements = {
                 left,
                 right,
                 up,
                 down,
               }: {
-                "${left}" = "workspace prev_on_output";
-                "${right}" = "workspace next_on_output";
-                "${up}" = "exec ${sway-workspace} prev-output";
-                "${down}" = "exec ${sway-workspace} next-output";
-                "Shift+${left}" = "move container to workspace prev_on_output, workspace prev_on_output;";
-                "Shift+${right}" = "move container to workspace next_on_output, workspace next_on_output;";
-                "Shift+${up}" = "exec ${sway-workspace} --move prev-output";
-                "Shift+${down}" = "exec ${sway-workspace} --move next-output";
+                "Ctrl+Alt+${left}" = "workspace prev_on_output";
+                "Ctrl+Alt+${right}" = "workspace next_on_output";
+                "Ctrl+Alt+${up}" = "exec ${sway-workspace} prev-output";
+                "Ctrl+Alt+${down}" = "exec ${sway-workspace} next-output";
+                "Ctrl+Alt+Shift+${left}" = "move container to workspace prev_on_output, workspace prev_on_output;";
+                "Ctrl+Alt+Shift+${right}" = "move container to workspace next_on_output, workspace next_on_output;";
+                "Ctrl+Alt+Shift+${up}" = "exec ${sway-workspace} --move prev-output";
+                "Ctrl+Alt+Shift+${down}" = "exec ${sway-workspace} --move next-output";
+                "Ctrl+Mod4+Shift+${left}" = "exec ${swayws} swap current prev";
+                "Ctrl+Mod4+Shift+${right}" = "exec ${swayws} swap current next";
               };
             in
               (movements {
@@ -238,20 +231,20 @@
                 down = "Down";
                 up = "Up";
               })
-              // {
-                "N" = "exec ${sway-nw} open";
-                "Shift+N" = "exec ${sway-nw} move";
-              }
           )
           // (
             let
+              sway-nw = "${pkgs.sway-new-workspace}/bin/sway-new-workspace";
               unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
               grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
             in {
+              "Ctrl+Alt+N" = "exec ${sway-nw} open";
+              "Ctrl+Alt+Shift+N" = "exec ${sway-nw} move";
               "Alt+F2" = "exec ${rofi-run}";
               "Mod4+space" = "exec ${rofi-menu}";
 
               "Print" = "exec ${grimshot} copy anything";
+              "Shift+Print" = "exec ${grimshot} copy output";
               "XF86AudioRaiseVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
               "XF86AudioLowerVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
               "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s +10%";
@@ -268,8 +261,8 @@
       exec ${configure-gtk}
       exec_always ${update-lid}
 
-      bindswitch lid:on output eDP-1 disable
-      bindswitch lid:off output eDP-1 enable
+      bindswitch lid:on  exec ${update-lid}
+      bindswitch lid:off exec ${update-lid}
 
       workspace number 1
       exec firefox
