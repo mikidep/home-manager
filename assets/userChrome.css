@@ -3,7 +3,7 @@
 }
 
 #statuspanel {
-  opacity: 0.5 !important;
+  opacity: 0 !important;
 }
 
 #sidebar-header {
@@ -48,4 +48,9 @@
 
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover {
   margin-right: calc((var(--wide-tab-width) - var(--thin-tab-width)) * -1) !important;
+}
+
+#context-navigation,
+#context-sep-navigation {
+  visibility: collapse !important;
 }

@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./vscode.nix
     ./shell.nix
@@ -41,15 +45,24 @@
         fonts = ["Arimo" "Iosevka"];
       }
     )
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
     alsa-tools
     qpwgraph
     reaper
     zeal
+    glxinfo
   ];
+
+  home.file.agda-docset-stdlib = {
+    source = "${inputs.agda-docsets.packages.x86_64-linux.standard-library-docset}/standard-library.docset";
+    target = ".local/share/Zeal/Zeal/docsets/standard-library.docset";
+  };
+
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
-      sansSerif = ["Arimo NF"];
+      sansSerif = ["Noto Sans CJK CS" "Arimo NF"];
       monospace = ["IosevkaTerm NFM"];
     };
   };

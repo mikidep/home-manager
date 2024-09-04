@@ -17,12 +17,17 @@
     '';
   in "${bg}";
 in {
-  # stylix = {
-  #   image = bg;
-  #   polarity = "dark";
-  #   targets.kitty.enable = false;
-  # };
   home.packages = with pkgs; [wl-clipboard];
+
+  i18n.inputMethod = {
+    enabled = null;
+    fcitx5.addons = with pkgs; [
+      fcitx5-gtk
+      kdePackages.fcitx5-qt
+      kdePackages.fcitx5-chinese-addons
+    ];
+  };
+
   programs.firefox = {
     enable = true;
     profiles.default = {
@@ -37,6 +42,7 @@ in {
         "layout.css.backdrop-filter.enabled" = true;
         "svg.context-properties.content.enabled" = true;
         "network.protocol-handler.external.mailto" = false;
+        "browser.tabs.unloadOnLowMemory" = true;
       };
       userChrome = builtins.readFile ./assets/userChrome.css;
     };
@@ -45,6 +51,12 @@ in {
   programs.zathura.enable = true;
   programs.kitty = {
     enable = true;
+  };
+
+  systemd.user.startServices = true;
+  systemd.user.sessionVariables = {
+    GTK_IM_MODULE = "fcitx5";
+    QT_IM_MODULE = "fcitx5";
   };
 
   imports = [
@@ -71,7 +83,7 @@ in {
         url = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/240px-WhatsApp.svg.png";
         hash = "sha256-ZbTuq5taAsRvdfJqvqw8cqR5z4/Ogpt/nEb1npp/l4U=";
       };
-      exec = ''${pkgs.chromium}/bin/chromium --app="https://web.whatsapp.com/"'';
+      exec = ''${pkgs.chromium}/bin/chromium --ozone-platform-hint=auto --app="https://web.whatsapp.com/"'';
       terminal = false;
     };
     desktopEntries.feh = {

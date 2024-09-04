@@ -5,7 +5,18 @@
   config,
   bg,
   ...
-}: {
+}: let
+  update-lid =
+    pkgs.writeShellScript
+    "update-lid"
+    ''
+      if grep -q open /proc/acpi/button/lid/LID/state; then
+          swaymsg output eDP-1 enable
+      else
+          swaymsg output eDP-1 disable
+      fi
+    '';
+in {
   home.packages = with pkgs; [
     swaybg
     swaynotificationcenter
@@ -19,7 +30,7 @@
       layer = "top";
       modules-left = ["sway/workspaces" "sway/mode"];
       modules-center = ["sway/window"];
-      modules-right = ["network" "disk" "wireplumber" "battery" "clock"];
+      modules-right = ["memory" "network" "disk" "wireplumber" "battery" "clock"];
       "sway/window" = {
         max-length = 50;
       };
@@ -36,12 +47,16 @@
       };
       disk = {
         path = "/";
-        format = "Disk usage: {percentage_used}%";
+        format = "DU {percentage_used}%";
       };
       wireplumber = {
         on-click = "${pkgs.qpwgraph}/bin/qpwgraph";
         format = "{node_name} {volume}% {icon}";
         format-muted = "";
+      };
+      memory = {
+        format = "RAM {percentage}%";
+        interval = 5;
       };
     };
   };
@@ -62,6 +77,10 @@
       {
         event = "before-sleep";
         command = "${swaylock}";
+      }
+      {
+        event = "after-resume";
+        command = "${update-lid}";
       }
     ];
     timeouts = [
@@ -114,17 +133,6 @@
           gsettings set $gnome_schema gtk-theme 'Dracula'
         ''
       );
-    update-lid =
-      pkgs.writeShellScript
-      "update-lid"
-      ''
-        #!/bin/sh
-        if grep -q open /proc/acpi/button/lid/LID/state; then
-            swaymsg output eDP-1 enable
-        else
-            swaymsg output eDP-1 disable
-        fi
-      '';
   in {
     enable = true;
     package = let
@@ -138,120 +146,139 @@
       };
     systemd.enable = true;
 
-    config = {...}: {
-      config = {
-        input."*" = {
-          xkb_layout = "it";
-          xkb_numlock = "enabled";
-          tap = "enabled";
-          tap_button_map = "lrm";
-        };
+    config = {
+      input."*" = {
+        xkb_layout = "it";
+        xkb_numlock = "enabled";
+        tap = "enabled";
+        tap_button_map = "lrm";
+      };
 
-        output = {
-          "*" = {
-            bg = "${bg} center #000000";
-          };
-          "Dell Inc. DELL P2719HC H5F9QS2" = {
-            scale = "1";
-          };
-          "Dell Inc. DELL S2721D DTNDP43" = {
-            scale = "1.25";
-          };
-          "LG Electronics LG HDR 4K 0x0000B7E8" = {
-            scale = "2";
-          };
-        };
+      keybindings =
+        (
+          let
+            sway-workspace = let
+              repo = inputs.sway-workspace;
+              pkg = pkgs.rustPlatform.buildRustPackage {
+                name = "sway-workspace";
+                src = repo;
+                cargoHash = "sha256-8gT/2RUDIOnmTznjlzupIapHjz2pNQjj3DZ0dg8f+VM=";
+              };
+            in "${pkg}/bin/sway-workspace";
+            swayws = "${pkgs.swayws}/bin/swayws";
+            movements = {
+              left,
+              right,
+              up,
+              down,
+            }: {
+              "Mod4+${left}" = "focus prev";
+              "Mod4+${right}" = "focus next";
+              "Mod4+${up}" = "focus parent";
+              "Mod4+${down}" = "focus child";
+              "Mod4+Shift+${left}" = "move left";
+              "Mod4+Shift+${right}" = "move right";
+              "Mod4+Shift+${up}" = "move up";
+              "Mod4+Shift+${down}" = "move down";
+              "Ctrl+Alt+${left}" = "workspace prev_on_output";
+              "Ctrl+Alt+${right}" = "workspace next_on_output";
+              "Ctrl+Alt+${up}" = "exec ${sway-workspace} prev-output";
+              "Ctrl+Alt+${down}" = "exec ${sway-workspace} next-output";
+              "Ctrl+Alt+Shift+${left}" = "move container to workspace prev_on_output, workspace prev_on_output;";
+              "Ctrl+Alt+Shift+${right}" = "move container to workspace next_on_output, workspace next_on_output;";
+              "Ctrl+Alt+Shift+${up}" = "exec ${sway-workspace} --move prev-output";
+              "Ctrl+Alt+Shift+${down}" = "exec ${sway-workspace} --move next-output";
+              "Ctrl+Mod4+Shift+${left}" = "exec ${swayws} swap current prev";
+              "Ctrl+Mod4+Shift+${right}" = "exec ${swayws} swap current next";
+            };
+          in
+            (movements {
+              left = "H";
+              right = "L";
+              down = "J";
+              up = "K";
+            })
+            // (movements {
+              left = "Left";
+              right = "Right";
+              down = "Down";
+              up = "Up";
+            })
+        )
+        // (
+          let
+            sway-nw = "${pkgs.sway-new-workspace}/bin/sway-new-workspace";
+            unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
+            grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
+          in {
+            "Ctrl+Alt+N" = "exec ${sway-nw} open";
+            "Ctrl+Alt+Shift+N" = "exec ${sway-nw} move";
+            "Alt+F2" = "exec ${rofi-run}";
+            "Mod4+space" = "exec ${rofi-menu}";
+            "Mod4+V" = "layout toggle all";
+            "Shift+Mod4+Q" = "kill";
+            "Mod4+Return" = "exec ${terminal}";
+            "Mod4+R" = "mode resize";
 
-        window.titlebar = false;
-        window.commands = [
-          {
-            command = "layout tabbed";
-            criteria.app_id = "org.pwmt.zathura";
+            "Print" = "exec ${grimshot} copy anything";
+            "Shift+Print" = "exec ${grimshot} copy output";
+            "XF86AudioRaiseVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
+            "XF86AudioLowerVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
+            "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s +10%";
+            "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
+            "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           }
-        ];
-        inherit terminal;
-        menu = rofi-menu;
-        modifier = "Mod4";
-
-        bars = [];
-
-        gaps = {
-          inner = 3;
-          smartGaps = true;
-          smartBorders = "on";
+        );
+      modes.resize = {
+        "Escape" = "mode default";
+        "L" = "resize grow width 10 px";
+        "H" = "resize shrink width 10 px";
+      };
+      colors = {
+        #   focused = {
+        #     border = "#FF0000";
+        #     background = "#285577";
+        #     text = "#ffffff";
+        #     indicator = "#2e9ef4";
+        #     childBorder = "#0000FF";
+        #   };
+      };
+      output = {
+        "*" = {
+          bg = "${bg} center #000000";
         };
-
-        focus = {
-          followMouse = false;
-          newWindow = "urgent";
+        "Dell Inc. DELL P2719HC H5F9QS2" = {
+          scale = "1";
+        };
+        "Dell Inc. DELL S2721D DTNDP43" = {
+          scale = "1.25";
+        };
+        "LG Electronics LG HDR 4K" = {
+          scale = "2";
         };
       };
-      options.keybindings = lib.mkOption {
-        # This is quite cursed. See https://github.com/NixOS/nixpkgs/issues/16884
-        apply = defaultKb:
-          defaultKb
-          // (
-            let
-              sway-workspace = let
-                repo = inputs.sway-workspace;
-                pkg = pkgs.rustPlatform.buildRustPackage {
-                  name = "sway-workspace";
-                  src = repo;
-                  cargoSha256 = "sha256-DRUd2nSdfgiIiCrBUiF6UTPYb6i8POQGo1xU5CdXuUY=";
-                };
-              in "${pkg}/bin/sway-workspace";
-              swayws = "${pkgs.swayws}/bin/swayws";
-              movements = {
-                left,
-                right,
-                up,
-                down,
-              }: {
-                "Ctrl+Alt+${left}" = "workspace prev_on_output";
-                "Ctrl+Alt+${right}" = "workspace next_on_output";
-                "Ctrl+Alt+${up}" = "exec ${sway-workspace} prev-output";
-                "Ctrl+Alt+${down}" = "exec ${sway-workspace} next-output";
-                "Ctrl+Alt+Shift+${left}" = "move container to workspace prev_on_output, workspace prev_on_output;";
-                "Ctrl+Alt+Shift+${right}" = "move container to workspace next_on_output, workspace next_on_output;";
-                "Ctrl+Alt+Shift+${up}" = "exec ${sway-workspace} --move prev-output";
-                "Ctrl+Alt+Shift+${down}" = "exec ${sway-workspace} --move next-output";
-                "Ctrl+Mod4+Shift+${left}" = "exec ${swayws} swap current prev";
-                "Ctrl+Mod4+Shift+${right}" = "exec ${swayws} swap current next";
-              };
-            in
-              (movements {
-                left = "H";
-                right = "L";
-                down = "J";
-                up = "K";
-              })
-              // (movements {
-                left = "Left";
-                right = "Right";
-                down = "Down";
-                up = "Up";
-              })
-          )
-          // (
-            let
-              sway-nw = "${pkgs.sway-new-workspace}/bin/sway-new-workspace";
-              unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
-              grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
-            in {
-              "Ctrl+Alt+N" = "exec ${sway-nw} open";
-              "Ctrl+Alt+Shift+N" = "exec ${sway-nw} move";
-              "Alt+F2" = "exec ${rofi-run}";
-              "Mod4+space" = "exec ${rofi-menu}";
 
-              "Print" = "exec ${grimshot} copy anything";
-              "Shift+Print" = "exec ${grimshot} copy output";
-              "XF86AudioRaiseVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
-              "XF86AudioLowerVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-              "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s +10%";
-              "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
-              "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-            }
-          );
+      window.titlebar = false;
+      window.commands = [
+        {
+          command = "layout tabbed";
+          criteria.app_id = "org.pwmt.zathura";
+        }
+      ];
+      menu = rofi-menu;
+      modifier = "Mod4";
+
+      bars = [];
+
+      gaps = {
+        inner = 3;
+        smartGaps = true;
+        smartBorders = "on";
+      };
+
+      focus = {
+        followMouse = false;
+        newWindow = "urgent";
       };
     };
 

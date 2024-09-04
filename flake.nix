@@ -35,6 +35,14 @@
       url = "github:mikidep/swayws";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mikidep-neovim = {
+      url = "github:mikidep/neovim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agda-docsets = {
+      url = "github:phijor/agda-docsets";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
