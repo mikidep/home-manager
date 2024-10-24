@@ -8,7 +8,6 @@
     ./shell.nix
     ./ssh.nix
     ./design_tools.nix
-    ./matterlabs.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -26,7 +25,6 @@
     idris2
     stack
     archivemount
-    nnn
     trashy
     feh
 

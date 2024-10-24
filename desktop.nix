@@ -51,6 +51,14 @@ in {
   programs.zathura.enable = true;
   programs.kitty = {
     enable = true;
+    settings = {
+      scrollback_pager = let
+        nvim = "${pkgs.neovim}/bin/nvim";
+      in ''${nvim} -c "silent write! /tmp/kitty_scrollback_buffer | te cat /tmp/kitty_scrollback_buffer - "'';
+    };
+    keybindings = {
+      "f1" = "show_scrollback";
+    };
   };
 
   systemd.user.startServices = true;

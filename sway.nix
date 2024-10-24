@@ -148,7 +148,7 @@ in {
 
     config = {
       input."*" = {
-        xkb_layout = "it";
+        xkb_layout = "us(altgr-intl)";
         xkb_numlock = "enabled";
         tap = "enabled";
         tap_button_map = "lrm";
@@ -253,7 +253,7 @@ in {
         "Dell Inc. DELL S2721D DTNDP43" = {
           scale = "1.25";
         };
-        "LG Electronics LG HDR 4K" = {
+        "LG Electronics LG HDR 4K 0x0007B5E8" = {
           scale = "2";
         };
       };

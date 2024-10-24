@@ -9,11 +9,49 @@
     zoxide
     bat
     killall
+    yazi
+    screen
+    (
+      pkgs.writeShellApplication {
+        name = "agda-search-stdlib";
+        runtimeInputs = with pkgs; [fzf firefox sqlite];
+        text = let
+          docset = inputs.agda-docsets.packages.x86_64-linux.standard-library-docset;
+        in ''
+          sqlite3 ${docset}/standard-library.docset/Contents/Resources/docSet.dsidx "select * from searchIndex" \
+            | fzf \
+            | cut -d '|' -f 4 \
+            | xargs -I % firefox --new-window file://${docset}/standard-library.docset/Contents/Resources/Documents/%
+        '';
+      }
+    )
+    (
+      pkgs.writeShellApplication {
+        name = "agda-search-cubical";
+        runtimeInputs = with pkgs; [fzf firefox sqlite];
+        text = let
+          docset = inputs.agda-docsets.packages.x86_64-linux.cubical-docset;
+        in ''
+          sqlite3 ${docset}/cubical.docset/Contents/Resources/docSet.dsidx "select * from searchIndex" \
+            | fzf \
+            | cut -d '|' -f 4 \
+            | xargs -I % firefox --new-window file://${docset}/cubical.docset/Contents/Resources/Documents/%
+        '';
+      }
+    )
   ];
   programs.fish = {
     enable = true;
     functions = {
       nix_run = ''nix run nixpkgs#$argv[1] -- $argv[2..]'';
+      y = ''
+        set tmp (mktemp -t "yazi-cwd.XXXXXX")
+        yazi $argv --cwd-file="$tmp"
+        if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+        	builtin cd -- "$cwd"
+        end
+        rm -f -- "$tmp"
+      '';
     };
     interactiveShellInit = let
       neovim-cmd = "nix run ~/dotfiles/neovim --";
