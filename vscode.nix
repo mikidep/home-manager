@@ -14,6 +14,7 @@
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
         james-yu.latex-workshop
+        banacorn.agda-mode
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {

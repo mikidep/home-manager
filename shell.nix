@@ -9,7 +9,6 @@
     zoxide
     bat
     killall
-    yazi
     screen
     (
       pkgs.writeShellApplication {
@@ -44,14 +43,6 @@
     enable = true;
     functions = {
       nix_run = ''nix run nixpkgs#$argv[1] -- $argv[2..]'';
-      y = ''
-        set tmp (mktemp -t "yazi-cwd.XXXXXX")
-        yazi $argv --cwd-file="$tmp"
-        if set cwd (command cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-        	builtin cd -- "$cwd"
-        end
-        rm -f -- "$tmp"
-      '';
     };
     interactiveShellInit = let
       neovim-cmd = "nix run ~/dotfiles/neovim --";
@@ -76,6 +67,41 @@
         src = inputs.nix-env-fish;
       }
     ];
+  };
+  programs.yazi = {
+    enable = true;
+    enableFishIntegration = true;
+    shellWrapperName = "y";
+
+    settings = {
+      manager = {
+        show_hidden = true;
+      };
+      preview = {
+        max_width = 1000;
+        max_height = 1000;
+      };
+    };
+
+    plugins = {
+      full-border = "${inputs.yazi-plugins}/full-border.yazi";
+      max-preview = "${inputs.yazi-plugins}/max-preview.yazi";
+      fuze-archive = "${inputs.fuse-archive-yazi}";
+    };
+
+    initLua = ''
+      require("full-border"):setup()
+    '';
+
+    keymap = {
+      manager.prepend_keymap = [
+        {
+          on = "T";
+          run = "plugin --sync max-preview";
+          desc = "Maximize or restore the preview pane";
+        }
+      ];
+    };
   };
   programs.nix-index.enable = true;
 }

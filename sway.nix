@@ -72,34 +72,11 @@ in {
   services.swayidle = let
     swaylock = "${pkgs.swaylock}/bin/swaylock";
   in {
-    enable = true;
+    enable = false;
     events = [
       {
         event = "before-sleep";
         command = "${swaylock}";
-      }
-      {
-        event = "after-resume";
-        command = "${update-lid}";
-      }
-    ];
-    timeouts = [
-      {
-        timeout = 300;
-        command = let
-          suslock = pkgs.writeShellApplication {
-            name = "suslock";
-            runtimeInputs = with pkgs; [swaylock systemd];
-
-            text = ''
-              if not pgrep -l swaylock
-              then swaylock -fF
-              fi
-
-              systemctl suspend
-            '';
-          };
-        in "${suslock}";
       }
     ];
   };

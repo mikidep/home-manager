@@ -367,6 +367,22 @@
         "type": "github"
       }
     },
+    "fuse-archive-yazi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1729590058,
+        "narHash": "sha256-NXVc8nIGVePExWBX8TtStb7aAUy9kDmf3FxcExKbz5A=",
+        "owner": "dawsers",
+        "repo": "fuse-archive.yazi",
+        "rev": "21363ce30d7745d2ffea61cc22d6d29b6d0fdfbd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "dawsers",
+        "repo": "fuse-archive.yazi",
+        "type": "github"
+      }
+    },
     "git-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_3",
@@ -755,6 +771,7 @@
       "inputs": {
         "BOSL2": "BOSL2",
         "agda-docsets": "agda-docsets",
+        "fuse-archive-yazi": "fuse-archive-yazi",
         "home-manager": "home-manager",
         "lasercut-box-openscad": "lasercut-box-openscad",
         "mikidep-neovim": "mikidep-neovim",
@@ -763,7 +780,8 @@
         "nixpkgs": "nixpkgs_4",
         "sway-new-workspace": "sway-new-workspace",
         "sway-workspace": "sway-workspace",
-        "swayws": "swayws"
+        "swayws": "swayws",
+        "yazi-plugins": "yazi-plugins"
       }
     },
     "rust-analyzer-src": {
@@ -1016,6 +1034,22 @@
       "original": {
         "owner": "gsuuon",
         "repo": "tshjkl.nvim",
+        "type": "github"
+      }
+    },
+    "yazi-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731736005,
+        "narHash": "sha256-RYa7wbFGZ9citYYdF9FYJwzUGBmIUvNBdORpBPb6ZnQ=",
+        "owner": "yazi-rs",
+        "repo": "plugins",
+        "rev": "4a6edc3349a2a9850075363965d05b9063817df4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yazi-rs",
+        "repo": "plugins",
         "type": "github"
       }
     }

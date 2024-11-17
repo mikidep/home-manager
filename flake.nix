@@ -43,6 +43,14 @@
       url = "github:phijor/agda-docsets";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    yazi-plugins = {
+      url = "github:yazi-rs/plugins";
+      flake = false;
+    };
+    fuse-archive-yazi = {
+      url = "github:dawsers/fuse-archive.yazi";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
