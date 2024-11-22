@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "agda-cubical": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731508552,
+        "narHash": "sha256-HVd5wlzicV9Oxfj9lL8u+I0i7xy9p11VOcJ5ESeBYVA=",
+        "owner": "agda",
+        "repo": "cubical",
+        "rev": "9b7d5f27c12ad31e634f264a31395f52ad365a72",
+        "type": "github"
+      },
+      "original": {
+        "owner": "agda",
+        "repo": "cubical",
+        "type": "github"
+      }
+    },
     "agda-docsets": {
       "inputs": {
         "agda-index": "agda-index",
@@ -770,6 +786,7 @@
     "root": {
       "inputs": {
         "BOSL2": "BOSL2",
+        "agda-cubical": "agda-cubical",
         "agda-docsets": "agda-docsets",
         "fuse-archive-yazi": "fuse-archive-yazi",
         "home-manager": "home-manager",

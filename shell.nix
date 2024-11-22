@@ -68,15 +68,26 @@
       }
     ];
   };
+  programs.starship = {
+    enable = true;
+    settings = {
+      character = {
+        success_symbol = "[❄](bold bright-blue)";
+        error_symbol = "[❄](bold red)";
+      };
+      directory = {
+        truncate_to_repo = false;
+        truncation_symbol = "…/";
+        fish_style_pwd_dir_length = 3;
+      };
+    };
+  };
   programs.yazi = {
     enable = true;
     enableFishIntegration = true;
     shellWrapperName = "y";
 
     settings = {
-      manager = {
-        show_hidden = true;
-      };
       preview = {
         max_width = 1000;
         max_height = 1000;
@@ -86,7 +97,7 @@
     plugins = {
       full-border = "${inputs.yazi-plugins}/full-border.yazi";
       max-preview = "${inputs.yazi-plugins}/max-preview.yazi";
-      fuze-archive = "${inputs.fuse-archive-yazi}";
+      fuse-archive = "${inputs.fuse-archive-yazi}";
     };
 
     initLua = ''

@@ -269,7 +269,7 @@ in {
       bindswitch lid:off exec ${update-lid}
 
       workspace number 1
-      exec firefox
+      exec firefox-esr
       workspace number 2
       exec ${terminal}
       workspace number 20

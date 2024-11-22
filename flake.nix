@@ -51,6 +51,10 @@
       url = "github:dawsers/fuse-archive.yazi";
       flake = false;
     };
+    agda-cubical = {
+      url = "github:agda/cubical";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {

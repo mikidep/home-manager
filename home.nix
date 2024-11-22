@@ -8,6 +8,7 @@
     ./shell.nix
     ./ssh.nix
     ./design_tools.nix
+    ./eid.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -21,7 +22,13 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    (agda.withPackages (p: [p.cubical p.standard-library]))
+    (agda.withPackages (p: [
+      (p.cubical.overrideAttrs {
+        version = "master";
+        src = inputs.agda-cubical;
+      })
+      p.standard-library
+    ]))
     idris2
     stack
     archivemount
