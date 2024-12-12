@@ -509,6 +509,22 @@
         "type": "github"
       }
     },
+    "i3-switch-if-workspace-empty": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1542452636,
+        "narHash": "sha256-26AdZPUQA9hZjjoqduBP6i7EtbtKWBTkOwIG2bJlxIc=",
+        "owner": "giuseppe-dandrea",
+        "repo": "i3-switch-if-workspace-empty",
+        "rev": "8c033c1a9874e9eb703170e14b6e15fb21da1c3f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "giuseppe-dandrea",
+        "repo": "i3-switch-if-workspace-empty",
+        "type": "github"
+      }
+    },
     "lasercut-box-openscad": {
       "flake": false,
       "locked": {
@@ -790,6 +806,7 @@
         "agda-docsets": "agda-docsets",
         "fuse-archive-yazi": "fuse-archive-yazi",
         "home-manager": "home-manager",
+        "i3-switch-if-workspace-empty": "i3-switch-if-workspace-empty",
         "lasercut-box-openscad": "lasercut-box-openscad",
         "mikidep-neovim": "mikidep-neovim",
         "nix-env-fish": "nix-env-fish",

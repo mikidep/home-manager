@@ -55,6 +55,10 @@
       url = "github:agda/cubical";
       flake = false;
     };
+    i3-switch-if-workspace-empty = {
+      url = "github:giuseppe-dandrea/i3-switch-if-workspace-empty";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {

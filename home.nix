@@ -9,6 +9,7 @@
     ./ssh.nix
     ./design_tools.nix
     ./eid.nix
+    ./nix-tools.nix
   ];
 
   # Home Manager needs a bit of information about you and the

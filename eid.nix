@@ -4,7 +4,7 @@
     web-eid-app
   ];
   programs.firefox = {
-    package = pkgs.firefox-esr;
+    # package = pkgs.firefox-esr;
     nativeMessagingHosts = [
       pkgs.web-eid-app
     ];

@@ -16,6 +16,9 @@
           swaymsg output eDP-1 disable
       fi
     '';
+  python-i3ipc = let
+    pkg = pkgs.python312.withPackages (p: [p.i3ipc]);
+  in "${pkg}/bin/python";
 in {
   home.packages = with pkgs; [
     swaybg
@@ -131,6 +134,7 @@ in {
         tap_button_map = "lrm";
       };
 
+      seat."*".xcursor_theme = "Adwaita 48";
       keybindings =
         (
           let
@@ -261,15 +265,23 @@ in {
 
     extraConfig = let
       launch = "${pkgs.xdg-launch}/bin/xdg-launch";
+      gnome-schema = "org.gnome.desktop.interface";
     in ''
       exec ${configure-gtk}
       exec_always ${update-lid}
+
+      exec_always {
+        gsettings set ${gnome-schema} cursor-theme Adwaita
+        gsettings set ${gnome-schema} cursor-size 48
+      }
+
+      exec_always ${python-i3ipc} ${inputs.i3-switch-if-workspace-empty}/i3-switch-if-workspace-empty
 
       bindswitch lid:on  exec ${update-lid}
       bindswitch lid:off exec ${update-lid}
 
       workspace number 1
-      exec firefox-esr
+      exec firefox
       workspace number 2
       exec ${terminal}
       workspace number 20
