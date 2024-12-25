@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,9 +35,9 @@
       url = "github:larsch/lasercut-box-openscad";
       flake = false;
     };
-    swayws = {
+    swayws-src = {
       url = "github:mikidep/swayws";
-      inputs.nixpkgs.follows = "nixpkgs";
+      flake = false;
     };
     mikidep-neovim = {
       url = "github:mikidep/neovim";
@@ -77,7 +81,10 @@
     homeConfigurations.mikidep = home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
 
-      extraSpecialArgs = {inherit inputs;};
+      extraSpecialArgs = {
+        inherit inputs;
+        nur = inputs.nur.legacyPackages.${system};
+      };
 
       # Specify your home configuration modules here, for example,
       # the path to your home.nix.
@@ -87,9 +94,32 @@
         inputs.nix-index-database.hmModules.nix-index
         {
           nixpkgs.overlays = [
-            (_: _: {
+            (_: prev: {
               sway-new-workspace = sway-new-workspace.packages.${system}.default;
-              swayws = swayws.packages.${system}.default;
+              swayws = let
+                pkg = {
+                  lib,
+                  rustPlatform,
+                }:
+                  rustPlatform.buildRustPackage {
+                    pname = "swayws";
+                    version = "1.2.0-mikidep";
+                    src = inputs.swayws-src;
+                    cargoHash = "sha256-MXP/MDd/PXDFEeNwZOTxg0Ac1Z5NbY/Li7+7rvN8rB8=";
+
+                    # swayws does not have any tests
+                    doCheck = false;
+
+                    meta = with lib; {
+                      description = "Sway workspace tool which allows easy moving of workspaces to and from outputs";
+                      mainProgram = "swayws";
+                      homepage = "https://gitlab.com/mikidep/swayws";
+                      license = licenses.mit;
+                      maintainers = [maintainers.atila];
+                    };
+                  };
+              in
+                pkgs.callPackage pkg {};
             })
           ];
         }

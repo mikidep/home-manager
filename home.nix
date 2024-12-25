@@ -46,11 +46,8 @@
     signal-desktop
     ffmpeg_6-full
     audacity
-    (
-      nerdfonts.override {
-        fonts = ["Arimo" "Iosevka"];
-      }
-    )
+    nerd-fonts.arimo
+    nerd-fonts.iosevka
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     alsa-tools

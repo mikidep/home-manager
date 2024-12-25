@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  nur,
   ...
 }: let
   bg = let
@@ -45,6 +46,7 @@ in {
         "browser.tabs.unloadOnLowMemory" = true;
       };
       userChrome = builtins.readFile ./assets/userChrome.css;
+      extensions = [nur.repos.rycee.firefox-addons.ublock-origin];
     };
   };
 
@@ -91,14 +93,14 @@ in {
         url = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/240px-WhatsApp.svg.png";
         hash = "sha256-ZbTuq5taAsRvdfJqvqw8cqR5z4/Ogpt/nEb1npp/l4U=";
       };
-      exec = ''${pkgs.chromium}/bin/chromium --ozone-platform-hint=auto --app="https://web.whatsapp.com/"'';
+      exec = ''${lib.getExe pkgs.chromium} --ozone-platform-hint=auto --app="https://web.whatsapp.com/"'';
       terminal = false;
     };
     desktopEntries.feh = {
       type = "Application";
       name = "Feh";
       comment = "Launch Feh";
-      exec = ''${pkgs.feh}/bin/feh %U'';
+      exec = "${lib.getExe pkgs.feh} %U";
       terminal = false;
     };
     mimeApps = {

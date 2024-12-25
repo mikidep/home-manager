@@ -18,7 +18,8 @@
     '';
   python-i3ipc = let
     pkg = pkgs.python312.withPackages (p: [p.i3ipc]);
-  in "${pkg}/bin/python";
+  in
+    lib.getExe pkg;
 in {
   home.packages = with pkgs; [
     swaybg
@@ -53,7 +54,7 @@ in {
         format = "DU {percentage_used}%";
       };
       wireplumber = {
-        on-click = "${pkgs.qpwgraph}/bin/qpwgraph";
+        on-click = lib.getExe pkgs.qpwgraph;
         format = "{node_name} {volume}% {icon}";
         format-muted = "";
       };
@@ -73,7 +74,7 @@ in {
   };
 
   services.swayidle = let
-    swaylock = "${pkgs.swaylock}/bin/swaylock";
+    swaylock = lib.getExe pkgs.swaylock;
   in {
     enable = false;
     events = [
@@ -90,10 +91,10 @@ in {
   };
   wayland.windowManager.sway = let
     rofi = "${pkgs.rofi-wayland}/bin/rofi";
-    rofi-pm = ''${pkgs.rofi-power-menu}/bin/rofi-power-menu'';
+    rofi-pm = lib.getExe pkgs.rofi-power-menu;
     rofi-menu = ''${rofi} -show combi -combi-modes "pm:${rofi-pm},window,drun" -show-icons -theme solarized'';
     rofi-run = ''${rofi} -show run -theme solarized'';
-    terminal = "${pkgs.kitty}/bin/kitty";
+    terminal = lib.getExe pkgs.kitty;
     # currently, there is some friction between sway and gtk:
     # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
     # the suggested way to set gtk settings is with gsettings
@@ -118,7 +119,10 @@ in {
     package = let
       cfg = config.wayland.windowManager.sway;
     in
-      pkgs.sway.override {
+      (pkgs.sway.overrideAttrs {
+        version = "1.9";
+      })
+      .override {
         extraSessionCommands = cfg.extraSessionCommands;
         extraOptions = cfg.extraOptions;
         withBaseWrapper = cfg.wrapperFeatures.base;
@@ -130,6 +134,7 @@ in {
       input."*" = {
         xkb_layout = "us(altgr-intl)";
         xkb_numlock = "enabled";
+        xkb_options = "caps:escape";
         tap = "enabled";
         tap_button_map = "lrm";
       };
@@ -145,8 +150,9 @@ in {
                 src = repo;
                 cargoHash = "sha256-8gT/2RUDIOnmTznjlzupIapHjz2pNQjj3DZ0dg8f+VM=";
               };
-            in "${pkg}/bin/sway-workspace";
-            swayws = "${pkgs.swayws}/bin/swayws";
+            in
+              lib.getExe pkg;
+            swayws = lib.getExe pkgs.swayws;
             movements = {
               left,
               right,
@@ -188,9 +194,10 @@ in {
         )
         // (
           let
-            sway-nw = "${pkgs.sway-new-workspace}/bin/sway-new-workspace";
+            sway-nw = lib.getExe pkgs.sway-new-workspace;
             unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
-            grimshot = "${pkgs.sway-contrib.grimshot}/bin/grimshot";
+            grimshot = lib.getExe pkgs.sway-contrib.grimshot;
+            brightnessctl = lib.getExe pkgs.brightnessctl;
           in {
             "Ctrl+Alt+N" = "exec ${sway-nw} open";
             "Ctrl+Alt+Shift+N" = "exec ${sway-nw} move";
@@ -205,8 +212,8 @@ in {
             "Shift+Print" = "exec ${grimshot} copy output";
             "XF86AudioRaiseVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+";
             "XF86AudioLowerVolume" = "exec ${unmute}; exec wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-";
-            "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s +10%";
-            "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
+            "XF86MonBrightnessUp" = "exec ${brightnessctl} s +10%";
+            "XF86MonBrightnessDown" = "exec ${brightnessctl} s 10%-";
             "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
           }
         );
@@ -264,10 +271,11 @@ in {
     };
 
     extraConfig = let
-      launch = "${pkgs.xdg-launch}/bin/xdg-launch";
+      launch = lib.getExe pkgs.xdg-launch;
       gnome-schema = "org.gnome.desktop.interface";
     in ''
       exec ${configure-gtk}
+      exec systemctl --user import-environment
       exec_always ${update-lid}
 
       exec_always {

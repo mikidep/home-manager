@@ -69,10 +69,8 @@
       "explorer.excludeGitIgnore" = true;
 
       "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "${pkgs.nil}/bin/nil";
-      "nix.serverSettings".nil.formatting.command = [
-        "${pkgs.alejandra}/bin/alejandra"
-      ];
+      "nix.serverPath" = lib.getExe pkgs.nixd;
+      "nix.serverSettings".nixd.formatting.command = [(lib.getExe pkgs.alejandra)];
       "idris.idris2Mode" = true;
       "idris.idrisPath" = "idris2";
     };
