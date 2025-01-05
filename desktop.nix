@@ -18,7 +18,16 @@
     '';
   in "${bg}";
 in {
-  home.packages = with pkgs; [wl-clipboard];
+  home.packages = with pkgs; [
+    wl-clipboard
+    (
+      pkgs.writeShellApplication {
+        name = "whatsapp";
+        runtimeInputs = with pkgs; [chromium];
+        text = ''chromium --ozone-platform-hint=auto --app="https://web.whatsapp.com/"'';
+      }
+    )
+  ];
 
   i18n.inputMethod = {
     enabled = null;
@@ -54,13 +63,13 @@ in {
   programs.kitty = {
     enable = true;
     settings = {
-      scrollback_pager = let
-        nvim = "${pkgs.neovim}/bin/nvim";
-      in ''${nvim} -c "silent write! /tmp/kitty_scrollback_buffer | te cat /tmp/kitty_scrollback_buffer - "'';
+      scrollback_pager = ''nvim -c "silent write! /tmp/kitty_scrollback_buffer | te cat /tmp/kitty_scrollback_buffer - "'';
     };
     keybindings = {
       "f1" = "show_scrollback";
     };
+    font.name = "Iosevka Term NFM";
+    font.size = 16;
   };
 
   systemd.user.startServices = true;
@@ -93,7 +102,7 @@ in {
         url = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/240px-WhatsApp.svg.png";
         hash = "sha256-ZbTuq5taAsRvdfJqvqw8cqR5z4/Ogpt/nEb1npp/l4U=";
       };
-      exec = ''${lib.getExe pkgs.chromium} --ozone-platform-hint=auto --app="https://web.whatsapp.com/"'';
+      exec = ''whatsapp'';
       terminal = false;
     };
     desktopEntries.feh = {

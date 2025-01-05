@@ -1,5 +1,6 @@
 {
   inputs,
+  system,
   pkgs,
   lib,
   config,
@@ -16,16 +17,46 @@
           swaymsg output eDP-1 disable
       fi
     '';
-  python-i3ipc = let
-    pkg = pkgs.python312.withPackages (p: [p.i3ipc]);
-  in
-    lib.getExe pkg;
 in {
+  nixpkgs.overlays = [
+    (_: prev: {
+      sway-new-workspace = inputs.sway-new-workspace.packages.${system}.default;
+      swayws = let
+        pkg = {
+          lib,
+          rustPlatform,
+        }:
+          rustPlatform.buildRustPackage {
+            pname = "swayws";
+            version = "1.2.0-mikidep";
+            src = inputs.swayws-src;
+            cargoHash = "sha256-MXP/MDd/PXDFEeNwZOTxg0Ac1Z5NbY/Li7+7rvN8rB8=";
+
+            # swayws does not have any tests
+            doCheck = false;
+
+            meta = with lib; {
+              description = "Sway workspace tool which allows easy moving of workspaces to and from outputs";
+              mainProgram = "swayws";
+              homepage = "https://gitlab.com/mikidep/swayws";
+              license = licenses.mit;
+              maintainers = [maintainers.atila];
+            };
+          };
+      in
+        pkgs.callPackage pkg {};
+    })
+  ];
   home.packages = with pkgs; [
     swaybg
     swaynotificationcenter
     sway-contrib.grimshot
   ];
+  # nixpkgs.overlays = [
+  #   (_: _: {
+  #     xwayland = pkgs-stable.xwayland;
+  #   })
+  # ];
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -95,32 +126,32 @@ in {
     rofi-menu = ''${rofi} -show combi -combi-modes "pm:${rofi-pm},window,drun" -show-icons -theme solarized'';
     rofi-run = ''${rofi} -show run -theme solarized'';
     terminal = lib.getExe pkgs.kitty;
-    # currently, there is some friction between sway and gtk:
-    # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
-    # the suggested way to set gtk settings is with gsettings
-    # for gsettings to work, we need to tell it where the schemas are
-    # using the XDG_DATA_DIR environment variable
-    # run at the end of sway config
-    configure-gtk =
-      pkgs.writeShellScript
-      "configure-gtk"
-      (
-        let
-          schema = pkgs.gsettings-desktop-schemas;
-          datadir = "${schema}/share/gsettings-schemas/${schema.name}";
-        in ''
-          export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
-          gnome_schema=org.gnome.desktop.interface
-          gsettings set $gnome_schema gtk-theme 'Dracula'
-        ''
-      );
+    # # currently, there is some friction between sway and gtk:
+    # # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
+    # # the suggested way to set gtk settings is with gsettings
+    # # for gsettings to work, we need to tell it where the schemas are
+    # # using the XDG_DATA_DIR environment variable
+    # # run at the end of sway config
+    # configure-gtk =
+    #   pkgs.writeShellScript
+    #   "configure-gtk"
+    #   (
+    #     let
+    #       schema = pkgs.gsettings-desktop-schemas;
+    #       datadir = "${schema}/share/gsettings-schemas/${schema.name}";
+    #     in ''
+    #       export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
+    #       gnome_schema=org.gnome.desktop.interface
+    #       gsettings set $gnome_schema gtk-theme 'Dracula'
+    #     ''
+    #   );
   in {
     enable = true;
     package = let
       cfg = config.wayland.windowManager.sway;
     in
       (pkgs.sway.overrideAttrs {
-        version = "1.9";
+        version = "1.10";
       })
       .override {
         extraSessionCommands = cfg.extraSessionCommands;
@@ -129,6 +160,11 @@ in {
         withGtkWrapper = cfg.wrapperFeatures.gtk;
       };
     systemd.enable = true;
+
+    wrapperFeatures = {
+      base = true;
+      gtk = true;
+    };
 
     config = {
       input."*" = {
@@ -139,7 +175,10 @@ in {
         tap_button_map = "lrm";
       };
 
-      seat."*".xcursor_theme = "Adwaita 48";
+      input."1:1:AT_Translated_Set_2_keyboard" = {
+        xkb_layout = "it";
+      };
+
       keybindings =
         (
           let
@@ -151,7 +190,7 @@ in {
                 cargoHash = "sha256-8gT/2RUDIOnmTznjlzupIapHjz2pNQjj3DZ0dg8f+VM=";
               };
             in
-              lib.getExe pkg;
+              lib.getExe' pkg "sway-workspace";
             swayws = lib.getExe pkgs.swayws;
             movements = {
               left,
@@ -194,7 +233,7 @@ in {
         )
         // (
           let
-            sway-nw = lib.getExe pkgs.sway-new-workspace;
+            sway-nw = lib.getExe' pkgs.sway-new-workspace "sway-new-workspace";
             unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
             grimshot = lib.getExe pkgs.sway-contrib.grimshot;
             brightnessctl = lib.getExe pkgs.brightnessctl;
@@ -222,15 +261,6 @@ in {
         "L" = "resize grow width 10 px";
         "H" = "resize shrink width 10 px";
       };
-      colors = {
-        #   focused = {
-        #     border = "#FF0000";
-        #     background = "#285577";
-        #     text = "#ffffff";
-        #     indicator = "#2e9ef4";
-        #     childBorder = "#0000FF";
-        #   };
-      };
       output = {
         "*" = {
           bg = "${bg} center #000000";
@@ -253,6 +283,12 @@ in {
           criteria.app_id = "org.pwmt.zathura";
         }
       ];
+      assigns = {
+        "20: IM" = [
+          {title = "whatsapp";}
+          {app_id = "telegram";}
+        ];
+      };
       menu = rofi-menu;
       modifier = "Mod4";
 
@@ -268,33 +304,30 @@ in {
         followMouse = false;
         newWindow = "urgent";
       };
+      startup = [
+        {
+          command = update-lid.outPath;
+          always = true;
+        }
+        {
+          command = let
+            python-i3ipc = lib.getExe (pkgs.python312.withPackages (p: [p.i3ipc]));
+          in "${python-i3ipc} ${inputs.i3-switch-if-workspace-empty}/i3-switch-if-workspace-empty";
+          always = true;
+        }
+      ];
     };
 
-    extraConfig = let
-      launch = lib.getExe pkgs.xdg-launch;
-      gnome-schema = "org.gnome.desktop.interface";
-    in ''
-      exec ${configure-gtk}
-      exec systemctl --user import-environment
-      exec_always ${update-lid}
-
-      exec_always {
-        gsettings set ${gnome-schema} cursor-theme Adwaita
-        gsettings set ${gnome-schema} cursor-size 48
-      }
-
-      exec_always ${python-i3ipc} ${inputs.i3-switch-if-workspace-empty}/i3-switch-if-workspace-empty
-
+    extraConfig = ''
       bindswitch lid:on  exec ${update-lid}
       bindswitch lid:off exec ${update-lid}
 
-      workspace number 1
+      workspace 1
       exec firefox
-      workspace number 2
+      workspace 2
       exec ${terminal}
-      workspace number 20
       exec telegram-desktop
-      exec ${launch} whatsapp
+      exec whatsapp
     '';
   };
 }

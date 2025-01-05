@@ -1,6 +1,6 @@
 {
   pkgs,
-  inputs,
+  pkgs-stable,
   ...
 }: {
   imports = [
@@ -10,6 +10,8 @@
     ./design_tools.nix
     ./eid.nix
     ./nix-tools.nix
+    ./agda.nix
+    ./vpn.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -23,13 +25,6 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    (agda.withPackages (p: [
-      (p.cubical.overrideAttrs {
-        version = "master";
-        src = inputs.agda-cubical;
-      })
-      p.standard-library
-    ]))
     idris2
     stack
     archivemount
@@ -41,31 +36,25 @@
     telegram-desktop
     gimp
     vlc
-    jabref
+    pkgs-stable.jabref
     inkscape
     signal-desktop
     ffmpeg_6-full
     audacity
     nerd-fonts.arimo
     nerd-fonts.iosevka
+    nerd-fonts.iosevka-term
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     alsa-tools
     qpwgraph
     reaper
-    zeal
-    glxinfo
   ];
-
-  home.file.agda-docset-stdlib = {
-    source = "${inputs.agda-docsets.packages.x86_64-linux.standard-library-docset}/standard-library.docset";
-    target = ".local/share/Zeal/Zeal/docsets/standard-library.docset";
-  };
 
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
-      sansSerif = ["Noto Sans CJK CS" "Arimo NF"];
+      sansSerif = ["Arimo Nerd Font" "Noto Sans CJK CS"];
       monospace = ["IosevkaTerm NFM"];
     };
   };

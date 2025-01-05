@@ -11,35 +11,8 @@
     bat
     killall
     screen
-    inputs.mikidep-neovim.packages.x86_64-linux.default
-    (
-      pkgs.writeShellApplication {
-        name = "agda-search-stdlib";
-        runtimeInputs = with pkgs; [fzf firefox sqlite];
-        text = let
-          docset = inputs.agda-docsets.packages.x86_64-linux.standard-library-docset;
-        in ''
-          sqlite3 ${docset}/standard-library.docset/Contents/Resources/docSet.dsidx "select * from searchIndex" \
-            | fzf \
-            | cut -d '|' -f 4 \
-            | xargs -I % firefox --new-window file://${docset}/standard-library.docset/Contents/Resources/Documents/%
-        '';
-      }
-    )
-    (
-      pkgs.writeShellApplication {
-        name = "agda-search-cubical";
-        runtimeInputs = with pkgs; [fzf firefox sqlite];
-        text = let
-          docset = inputs.agda-docsets.packages.x86_64-linux.cubical-docset;
-        in ''
-          sqlite3 ${docset}/cubical.docset/Contents/Resources/docSet.dsidx "select * from searchIndex" \
-            | fzf \
-            | cut -d '|' -f 4 \
-            | xargs -I % firefox --new-window file://${docset}/cubical.docset/Contents/Resources/Documents/%
-        '';
-      }
-    )
+    # inputs.mikidep-neovim.packages.x86_64-linux.default
+    neovim
   ];
   programs.fish = {
     enable = true;
