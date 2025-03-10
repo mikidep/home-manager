@@ -5,6 +5,7 @@
   lib,
   config,
   bg,
+  terminal,
   ...
 }: let
   update-lid =
@@ -18,6 +19,7 @@
       fi
     '';
 in {
+  imports = [./sway/portal.nix];
   nixpkgs.overlays = [
     (_: prev: {
       sway-new-workspace = inputs.sway-new-workspace.packages.${system}.default;
@@ -52,11 +54,6 @@ in {
     swaynotificationcenter
     sway-contrib.grimshot
   ];
-  # nixpkgs.overlays = [
-  #   (_: _: {
-  #     xwayland = pkgs-stable.xwayland;
-  #   })
-  # ];
   programs.waybar = {
     enable = true;
     systemd.enable = true;
@@ -125,26 +122,7 @@ in {
     rofi-pm = lib.getExe pkgs.rofi-power-menu;
     rofi-menu = ''${rofi} -show combi -combi-modes "pm:${rofi-pm},window,drun" -show-icons -theme solarized'';
     rofi-run = ''${rofi} -show run -theme solarized'';
-    terminal = lib.getExe pkgs.kitty;
-    # # currently, there is some friction between sway and gtk:
-    # # https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
-    # # the suggested way to set gtk settings is with gsettings
-    # # for gsettings to work, we need to tell it where the schemas are
-    # # using the XDG_DATA_DIR environment variable
-    # # run at the end of sway config
-    # configure-gtk =
-    #   pkgs.writeShellScript
-    #   "configure-gtk"
-    #   (
-    #     let
-    #       schema = pkgs.gsettings-desktop-schemas;
-    #       datadir = "${schema}/share/gsettings-schemas/${schema.name}";
-    #     in ''
-    #       export XDG_DATA_DIRS=${datadir}:$XDG_DATA_DIRS
-    #       gnome_schema=org.gnome.desktop.interface
-    #       gsettings set $gnome_schema gtk-theme 'Dracula'
-    #     ''
-    #   );
+    inherit terminal; # redundant
   in {
     enable = true;
     package = let
@@ -243,9 +221,11 @@ in {
             "Alt+F2" = "exec ${rofi-run}";
             "Mod4+space" = "exec ${rofi-menu}";
             "Mod4+V" = "layout toggle all";
+            "Mod4+S" = "split toggle";
             "Shift+Mod4+Q" = "kill";
             "Mod4+Return" = "exec ${terminal}";
             "Mod4+R" = "mode resize";
+            "Mod4+F" = "floating toggle";
 
             "Print" = "exec ${grimshot} copy anything";
             "Shift+Print" = "exec ${grimshot} copy output";
@@ -277,12 +257,7 @@ in {
       };
 
       window.titlebar = false;
-      window.commands = [
-        {
-          command = "layout tabbed";
-          criteria.app_id = "org.pwmt.zathura";
-        }
-      ];
+
       assigns = {
         "20: IM" = [
           {title = "whatsapp";}
@@ -321,6 +296,15 @@ in {
     extraConfig = ''
       bindswitch lid:on  exec ${update-lid}
       bindswitch lid:off exec ${update-lid}
+
+      bindsym --whole-window BTN_BACK nop
+      bindsym --whole-window --release BTN_BACK nop
+      bindsym --whole-window BTN_FORWARD nop
+      bindsym --whole-window --release BTN_FORWARD nop
+      bindsym --whole-window BTN_SIDE nop
+      bindsym --whole-window --release BTN_SIDE nop
+      bindsym --whole-window BTN_EXTRA nop
+      bindsym --whole-window --release BTN_EXTRA nop
 
       workspace 1
       exec firefox

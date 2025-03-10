@@ -2,12 +2,13 @@
   pkgs,
   lib,
   nur,
+  config,
   ...
 }: let
   bg = let
     convert = "${pkgs.imagemagick}/bin/convert";
     font = "${pkgs.iosevka}/share/fonts/truetype/Iosevka-ExtendedMediumItalic.ttf";
-    bg = pkgs.runCommand "desktop-bg.png" {} ''
+    drv = pkgs.runCommand "desktop-bg.png" {} ''
       ${convert} -font ${font} \
         -background black \
         -fill white \
@@ -16,8 +17,17 @@
         -size 1920x1080 \
         label:"oh no, not you again!" $out
     '';
-  in "${bg}";
+  in
+    drv.outPath;
+  # could this be refactored using xdg terminal?
+  terminal = assert config.programs.kitty.enable; "kitty";
 in {
+  imports = [
+    ./sway.nix
+  ];
+  _module.args = {
+    inherit bg terminal;
+  };
   home.packages = with pkgs; [
     wl-clipboard
     (
@@ -55,7 +65,10 @@ in {
         "browser.tabs.unloadOnLowMemory" = true;
       };
       userChrome = builtins.readFile ./assets/userChrome.css;
-      extensions = [nur.repos.rycee.firefox-addons.ublock-origin];
+      extensions = [
+        nur.repos.rycee.firefox-addons.ublock-origin
+        nur.repos.rycee.firefox-addons.youtube-nonstop
+      ];
     };
   };
 
@@ -66,7 +79,7 @@ in {
       scrollback_pager = ''nvim -c "silent write! /tmp/kitty_scrollback_buffer | te cat /tmp/kitty_scrollback_buffer - "'';
     };
     keybindings = {
-      "f1" = "show_scrollback";
+      # "f1" = "show_scrollback";
     };
     font.name = "Iosevka Term NFM";
     font.size = 16;
@@ -78,10 +91,6 @@ in {
     QT_IM_MODULE = "fcitx5";
   };
 
-  imports = [
-    ./sway.nix
-  ];
-  _module.args = {inherit bg;};
   services.udiskie.enable = true;
   xdg = {
     enable = true;
@@ -112,6 +121,13 @@ in {
       exec = "${lib.getExe pkgs.feh} %U";
       terminal = false;
     };
+    desktopEntries.yazi = {
+      type = "Application";
+      name = "Yazi";
+      comment = "Launch Yazi";
+      exec = assert config.programs.yazi.enable; assert config.programs.kitty.enable; "kitty --hold yazi %U";
+      terminal = false;
+    };
     mimeApps = {
       enable = true;
       defaultApplications = let
@@ -119,6 +135,7 @@ in {
       in
         {
           "application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
+          "inode/directory" = "yazi.desktop";
         }
         // (constVals [
           "x-scheme-handler/http"

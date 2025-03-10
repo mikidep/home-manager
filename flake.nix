@@ -8,12 +8,12 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-index-database = {
-      url = "github:Mic92/nix-index-database";
+    home-manager = {
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sway-new-workspace = {
@@ -40,12 +40,12 @@
       url = "github:mikidep/swayws";
       flake = false;
     };
-    # mikidep-neovim = {
-    #   url = "github:mikidep/neovim";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    agda-docsets = {
-      url = "github:phijor/agda-docsets";
+    mikidep-neovim = {
+      url = "github:mikidep/neovim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agda-index = {
+      url = "github:phijor/agda-index";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     yazi-plugins = {
@@ -97,7 +97,7 @@
       modules = [
         ./home.nix
         ./desktop.nix
-        inputs.nix-index-database.hmModules.nix-index
+        (inputs.nix-index-database.hmModules.nix-index)
       ];
     };
   };
