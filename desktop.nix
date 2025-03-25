@@ -65,7 +65,7 @@ in {
         "browser.tabs.unloadOnLowMemory" = true;
       };
       userChrome = builtins.readFile ./assets/userChrome.css;
-      extensions = [
+      extensions.packages = [
         nur.repos.rycee.firefox-addons.ublock-origin
         nur.repos.rycee.firefox-addons.youtube-nonstop
       ];

@@ -32,7 +32,7 @@ in {
             pname = "swayws";
             version = "1.2.0-mikidep";
             src = inputs.swayws-src;
-            cargoHash = "sha256-MXP/MDd/PXDFEeNwZOTxg0Ac1Z5NbY/Li7+7rvN8rB8=";
+            cargoLock.lockFile = "${inputs.swayws-src}/Cargo.lock";
 
             # swayws does not have any tests
             doCheck = false;
@@ -40,7 +40,7 @@ in {
             meta = with lib; {
               description = "Sway workspace tool which allows easy moving of workspaces to and from outputs";
               mainProgram = "swayws";
-              homepage = "https://gitlab.com/mikidep/swayws";
+              homepage = "https://github.com/mikidep/swayws";
               license = licenses.mit;
               maintainers = [maintainers.atila];
             };
@@ -165,7 +165,7 @@ in {
               pkg = pkgs.rustPlatform.buildRustPackage {
                 name = "sway-workspace";
                 src = repo;
-                cargoHash = "sha256-8gT/2RUDIOnmTznjlzupIapHjz2pNQjj3DZ0dg8f+VM=";
+                cargoLock.lockFile = "${repo}/Cargo.lock";
               };
             in
               lib.getExe' pkg "sway-workspace";

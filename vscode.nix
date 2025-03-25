@@ -9,7 +9,7 @@
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
-    extensions = with pkgs.vscode-extensions;
+    profiles.default.extensions = with pkgs.vscode-extensions;
       [
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
@@ -48,7 +48,7 @@
           sha256 = "sha256-QAzjm+8Z+4TDbM5amh3UEkSmp0n8ZlRHYpUGAewIVXk=";
         }
       ];
-    userSettings = {
+    profiles.default.userSettings = {
       "workbench.colorTheme" = "Pitch Black";
 
       "editor.fontFamily" = "Iosevka";
@@ -74,7 +74,7 @@
       "idris.idris2Mode" = true;
       "idris.idrisPath" = "idris2";
     };
-    languageSnippets = {
+    profiles.default.languageSnippets = {
       agda = {
         "Declare and define" = {
           prefix = "def";
@@ -85,7 +85,7 @@
         };
       };
     };
-    keybindings = let
+    profiles.default.keybindings = let
       typingBindings =
         map
         ({
