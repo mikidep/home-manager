@@ -30,6 +30,19 @@ in {
   };
   home.packages = with pkgs; [
     wl-clipboard
+    gnome-calculator
+    chromium
+    discord
+    telegram-desktop
+    gimp
+    vlc
+    jabref
+    feh
+    inkscape
+    signal-desktop
+    qpwgraph
+    reaper
+    audacity
     (
       pkgs.writeShellApplication {
         name = "whatsapp";
@@ -63,6 +76,7 @@ in {
         "svg.context-properties.content.enabled" = true;
         "network.protocol-handler.external.mailto" = false;
         "browser.tabs.unloadOnLowMemory" = true;
+        "browser.autofocus" = false;
       };
       userChrome = builtins.readFile ./assets/userChrome.css;
       extensions.packages = [
@@ -73,6 +87,8 @@ in {
   };
 
   programs.zathura.enable = true;
+  programs.zathura.package = pkgs.zathura.override {useMupdf = false;};
+
   programs.kitty = {
     enable = true;
     settings = {
@@ -134,7 +150,7 @@ in {
         constVals = ks: v: lib.attrsets.genAttrs ks (lib.trivial.const v);
       in
         {
-          "application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
+          "application/pdf" = "org.pwmt.zathura.desktop";
           "inode/directory" = "yazi.desktop";
         }
         // (constVals [

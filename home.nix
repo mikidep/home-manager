@@ -1,8 +1,4 @@
-{
-  pkgs,
-  pkgs-stable,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./vscode.nix
     ./shell.nix
@@ -30,26 +26,13 @@
     stack
     archivemount
     trashy
-    feh
-
-    chromium
-    discord
-    telegram-desktop
-    gimp
-    vlc
-    pkgs-stable.jabref
-    inkscape
-    signal-desktop
     ffmpeg_6-full
-    audacity
     nerd-fonts.arimo
     nerd-fonts.iosevka
     nerd-fonts.iosevka-term
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     alsa-tools
-    qpwgraph
-    reaper
   ];
 
   fonts.fontconfig = {

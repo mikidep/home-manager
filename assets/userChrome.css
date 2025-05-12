@@ -18,3 +18,25 @@
 #context-sep-navigation {
   visibility: collapse !important;
 }
+
+@media screen and (max-width: 1024px) {
+  #sidebar-box {
+    display: none;
+  }
+
+  #sidebar-header {
+    display: none;
+  }
+
+  #sidebar-splitter {
+    display: none
+  }
+
+  #sidebar-panel {
+    display: none
+  }
+
+  #sidebar {
+    display: none
+  }
+}
