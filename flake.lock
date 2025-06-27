@@ -37,20 +37,38 @@
         "type": "github"
       }
     },
-    "cmp-agda-symbols": {
+    "agda-symbols": {
       "flake": false,
       "locked": {
-        "lastModified": 1709208014,
-        "narHash": "sha256-O+peKs/NeZADkVFFKgY7g34lejOQp+tlXrXEm9ZatYw=",
-        "owner": "Arkissa",
-        "repo": "cmp-agda-symbols",
-        "rev": "4fe1a58d24a59146142af9181c211b26f0395a9e",
+        "lastModified": 1741183027,
+        "narHash": "sha256-hUozAJNEakUEv7DkECwbYAznsFj5d0CR0YMfyZ+VwZc=",
+        "owner": "4e554c4c",
+        "repo": "agda-symbols",
+        "rev": "52baf50f2f8160d2f580e7e80b5c3de2a46ba6f4",
         "type": "github"
       },
       "original": {
-        "owner": "Arkissa",
-        "repo": "cmp-agda-symbols",
+        "owner": "4e554c4c",
+        "repo": "agda-symbols",
         "type": "github"
+      }
+    },
+    "blink-cmp-agda-symbols": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1744995959,
+        "narHash": "sha256-HhWJo1rU9ynudkCGrVZDsr432Lt92BcE6d49oS/laNM=",
+        "ref": "refs/heads/main",
+        "rev": "1b3a4290b67d3f1262094194bc0c68e72a5bf847",
+        "revCount": 18,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/4e554c4c/blink-cmp-agda-symbols.git"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/4e554c4c/blink-cmp-agda-symbols.git"
       }
     },
     "cmp-vimtex": {
@@ -362,7 +380,8 @@
     },
     "mikidep-neovim": {
       "inputs": {
-        "cmp-agda-symbols": "cmp-agda-symbols",
+        "agda-symbols": "agda-symbols",
+        "blink-cmp-agda-symbols": "blink-cmp-agda-symbols",
         "cmp-vimtex": "cmp-vimtex",
         "flake-parts": "flake-parts",
         "floating-help-nvim": "floating-help-nvim",
@@ -377,17 +396,18 @@
         "nixvim": "nixvim",
         "ns-textobject-nvim": "ns-textobject-nvim",
         "nvfs": "nvfs",
+        "nvim-treehopper": "nvim-treehopper",
         "scrolleof-nvim": "scrolleof-nvim",
         "telescope-git-file-history-nvim": "telescope-git-file-history-nvim",
         "telescope-luasnip-nvim": "telescope-luasnip-nvim",
         "tree-sitter-openscad": "tree-sitter-openscad"
       },
       "locked": {
-        "lastModified": 1745306759,
-        "narHash": "sha256-Mj3VeNf/Okh36hODDJgoxQSI23mFK2mJL5+hVIbE8yY=",
+        "lastModified": 1748018946,
+        "narHash": "sha256-Zta3/uLWXuAeVKEPM63OFoDf7KEd7XU6gSjaUMhaEh8=",
         "owner": "mikidep",
         "repo": "neovim",
-        "rev": "ed41e4f1f581572cb7d938b62f8dd0ffb2e8adf0",
+        "rev": "0275a3cce2ef9c1788c1c1c23f172949fb6cb2b7",
         "type": "github"
       },
       "original": {
@@ -572,6 +592,22 @@
       "original": {
         "owner": "LunarVim",
         "repo": "Neovim-from-scratch",
+        "type": "github"
+      }
+    },
+    "nvim-treehopper": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1739090409,
+        "narHash": "sha256-M2yA1wYowtA5Dqk4J9zjSUZz+ZrpqXp25k5N5adVDgE=",
+        "owner": "mfussenegger",
+        "repo": "nvim-treehopper",
+        "rev": "0b9f5c8980ab1427644ff70059f7ae0fd89b547e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mfussenegger",
+        "repo": "nvim-treehopper",
         "type": "github"
       }
     },

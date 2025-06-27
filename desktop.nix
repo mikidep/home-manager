@@ -77,8 +77,9 @@ in {
         "network.protocol-handler.external.mailto" = false;
         "browser.tabs.unloadOnLowMemory" = true;
         "browser.autofocus" = false;
+        "browser.ml.chat.enabled" = false;
+        "sidebar.verticalTabs" = true;
       };
-      userChrome = builtins.readFile ./assets/userChrome.css;
       extensions.packages = [
         nur.repos.rycee.firefox-addons.ublock-origin
         nur.repos.rycee.firefox-addons.youtube-nonstop
