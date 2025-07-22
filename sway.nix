@@ -82,7 +82,8 @@ in {
         format = "DU {percentage_used}%";
       };
       wireplumber = {
-        on-click = lib.getExe pkgs.qpwgraph;
+        on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        scroll-step = 5;
         format = "{node_name} {volume}% {icon}";
         format-muted = "";
       };
@@ -253,6 +254,9 @@ in {
         };
         "LG Electronics LG HDR 4K 0x0007B5E8" = {
           scale = "2";
+        };
+        "eDP-1" = {
+          scale = "1.25";
         };
       };
 

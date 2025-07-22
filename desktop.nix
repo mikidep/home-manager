@@ -24,6 +24,7 @@
 in {
   imports = [
     ./sway.nix
+    ./firefox.nix
   ];
   _module.args = {
     inherit bg terminal;
@@ -32,7 +33,6 @@ in {
     wl-clipboard
     gnome-calculator
     chromium
-    discord
     telegram-desktop
     gimp
     vlc
@@ -61,34 +61,7 @@ in {
     ];
   };
 
-  programs.firefox = {
-    enable = true;
-    profiles.default = {
-      id = 0;
-      name = "default";
-      isDefault = true;
-      settings = {
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-        "layers.acceleration.force-enabled" = true;
-        "gfx.webrender.all" = true;
-        "gfx.webrender.enabled" = true;
-        "layout.css.backdrop-filter.enabled" = true;
-        "svg.context-properties.content.enabled" = true;
-        "network.protocol-handler.external.mailto" = false;
-        "browser.tabs.unloadOnLowMemory" = true;
-        "browser.autofocus" = false;
-        "browser.ml.chat.enabled" = false;
-        "sidebar.verticalTabs" = true;
-      };
-      extensions.packages = [
-        nur.repos.rycee.firefox-addons.ublock-origin
-        nur.repos.rycee.firefox-addons.youtube-nonstop
-      ];
-    };
-  };
-
   programs.zathura.enable = true;
-  programs.zathura.package = pkgs.zathura.override {useMupdf = false;};
 
   programs.kitty = {
     enable = true;

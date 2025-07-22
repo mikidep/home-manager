@@ -60,6 +60,9 @@
       url = "github:giuseppe-dandrea/i3-switch-if-workspace-empty";
       flake = false;
     };
+    nixcord = {
+      url = "github:kaylorben/nixcord";
+    };
   };
 
   outputs = inputs @ {

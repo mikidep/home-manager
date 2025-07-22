@@ -3,7 +3,11 @@
   inputs,
   ...
 }: {
-  home.packages = with pkgs; [openscad-unstable prusa-slicer];
+  home.packages = with pkgs; [
+    openscad-unstable
+    prusa-slicer
+    kicad
+  ];
 
   home.file.BOSL2 = {
     source = "${inputs.BOSL2}";
