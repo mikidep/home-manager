@@ -22,7 +22,6 @@ in {
   imports = [./sway/portal.nix];
   nixpkgs.overlays = [
     (_: prev: {
-      sway-new-workspace = inputs.sway-new-workspace.packages.${system}.default;
       swayws = let
         pkg = {
           lib,
@@ -129,9 +128,8 @@ in {
     package = let
       cfg = config.wayland.windowManager.sway;
     in
-      (pkgs.sway.overrideAttrs {
-        version = "1.10";
-      })
+      pkgs
+      .sway
       .override {
         extraSessionCommands = cfg.extraSessionCommands;
         extraOptions = cfg.extraOptions;
@@ -147,15 +145,20 @@ in {
 
     config = {
       input."*" = {
-        xkb_layout = "us(altgr-intl)";
+        xkb_layout = "it";
         xkb_numlock = "enabled";
-        xkb_options = "caps:escape";
+        xkb_options = "caps:swapescape";
         tap = "enabled";
         tap_button_map = "lrm";
       };
 
-      input."1:1:AT_Translated_Set_2_keyboard" = {
-        xkb_layout = "it";
+      input."9114:33012:KMK_Keyboards_PicoDox_Keyboard" = {
+        xkb_layout = "us(altgr-intl)";
+        xkb_options = "''";
+      };
+
+      input."1452:592:Apple_Inc._Apple_Keyboard" = {
+        xkb_options = "altwin:swap_lalt_lwin,caps:swapescape";
       };
 
       keybindings =
@@ -212,7 +215,7 @@ in {
         )
         // (
           let
-            sway-nw = lib.getExe' pkgs.sway-new-workspace "sway-new-workspace";
+            sway-nw = lib.getExe pkgs.sway-new-workspace;
             unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
             grimshot = lib.getExe pkgs.sway-contrib.grimshot;
             brightnessctl = lib.getExe pkgs.brightnessctl;

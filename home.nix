@@ -64,6 +64,11 @@
     enable = true;
     userName = "Michele De Pascalis";
     userEmail = "michele.de.pascalis.1024@gmail.com";
+    delta.enable = true;
+    extraConfig = {
+      init.defaultBranch = "master";
+      advice.defaultBranchName = false;
+    };
   };
 
   programs.obs-studio = {

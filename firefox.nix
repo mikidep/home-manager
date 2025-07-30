@@ -42,6 +42,7 @@
         #statuspanel {
           right: 0 !important;
           left: auto !important;
+          max-width: 50% !important;
         }
       '';
     };

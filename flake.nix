@@ -16,10 +16,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sway-new-workspace = {
-      url = "github:mikidep/sway-new-workspace";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sway-workspace = {
       url = "github:matejc/sway-workspace";
       flake = false;
@@ -63,6 +59,10 @@
     nixcord = {
       url = "github:kaylorben/nixcord";
     };
+    mount-yazi = {
+      url = "github:SL-RU/mount.yazi";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {
@@ -100,7 +100,7 @@
       modules = [
         ./home.nix
         ./desktop.nix
-        (inputs.nix-index-database.hmModules.nix-index)
+        (inputs.nix-index-database.homeModules.nix-index)
       ];
     };
   };
