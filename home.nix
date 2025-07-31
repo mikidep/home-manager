@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./vscode.nix
     ./shell.nix
@@ -55,6 +59,11 @@
 
   nix = {
     package = pkgs.nix;
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
+    };
+    registry.nixpkgs.flake = inputs.nixpkgs;
     settings.experimental-features = ["nix-command" "flakes"];
   };
 
