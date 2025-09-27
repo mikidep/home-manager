@@ -22,18 +22,19 @@
       file-manager = assert config.programs.yazi.enable; "yazi";
     in {
       hms = "home-manager --flake ~/dotfiles/home-manager switch";
-      nvm = "nix run ~/dotfiles/neovim --";
+      nvm = "nix run ~/dotfiles/neovim --override-input nixpkgs nixpkgs --";
       cat = "bat";
       gc = "git clone $(wl-paste)";
-      "ns" = {
+      nmtui = "nmcli device wifi rescan && command nmtui";
+      ns = {
         expansion = "nix shell nixpkgs#%";
         setCursor = true;
       };
-      "nl" = {
+      nl = {
         expansion = "${file-manager} $(nix build nixpkgs#% --print-out-paths --no-link)";
         setCursor = true;
       };
-      "nr" = {
+      nr = {
         expansion = "nix run nixpkgs#%";
         setCursor = true;
       };

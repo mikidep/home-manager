@@ -24,6 +24,7 @@
         "browser.tabs.unloadOnLowMemory" = true;
         "browser.autofocus" = false;
         "browser.ml.chat.enabled" = false;
+        "browser.search.region" = "IT";
         "sidebar.verticalTabs" = true;
 
         # Do you sometimes experience Firefox randomly going back?
@@ -56,6 +57,8 @@
       bind n findnext --search-from-view
       bind N findnext --search-from-view --reverse
       bind ;a composite hint -F a => a.getAttribute('href') | yank
+      bind f hint -Jc a
+      bind F hint -Jbc a
 
       set smoothscroll true
       set blacklistkeys ['/']

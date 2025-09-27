@@ -93,6 +93,22 @@ in {
       '';
     };
 
+    # Adapted from
+    # https://github.com/cunbidun/dotfiles/blob/e1577d2335575d331365306c83e2d9d46d17d947/nix/hosts/nixos/home.nix
+    portal = {
+      enable = true;
+      # xdgOpenUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-termfilechooser
+        xdg-desktop-portal-gtk
+      ];
+    };
+    portal.config = {
+      common.default = ["gtk"];
+      common."org.freedesktop.impl.portal.FileChooser" = ["termfilechooser"];
+    };
+    # TODO: doesn't work
+
     desktopEntries.whatsapp = {
       type = "Application";
       name = "WhatsApp";
@@ -124,7 +140,7 @@ in {
         constVals = ks: v: lib.attrsets.genAttrs ks (lib.trivial.const v);
       in
         {
-          "application/pdf" = "org.pwmt.zathura.desktop";
+          "application/pdf" = "org.pwmt.zathura-pdf-mupdf.desktop";
           "inode/directory" = "yazi.desktop";
         }
         // (constVals [

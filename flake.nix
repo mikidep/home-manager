@@ -8,6 +8,10 @@
       url = "github:nix-community/NUR";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mynur = {
+      url = "github:mikidep/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,14 +26,6 @@
     };
     nix-env-fish = {
       url = "github:lilyball/nix-env.fish";
-      flake = false;
-    };
-    BOSL2 = {
-      url = "github:BelfrySCAD/BOSL2";
-      flake = false;
-    };
-    lasercut-box-openscad = {
-      url = "github:larsch/lasercut-box-openscad";
       flake = false;
     };
     swayws-src = {
@@ -93,6 +89,7 @@
         inherit system;
         inherit pkgs-stable;
         nur = inputs.nur.legacyPackages.${system};
+        mynur = inputs.mynur.legacyPackages.${system};
       };
 
       # Specify your home configuration modules here, for example,
