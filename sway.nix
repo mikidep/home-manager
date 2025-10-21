@@ -53,45 +53,6 @@ in {
     swaynotificationcenter
     sway-contrib.grimshot
   ];
-  programs.waybar = {
-    enable = true;
-    systemd.enable = true;
-    settings.mainBar = {
-      position = "bottom";
-      layer = "top";
-      modules-left = ["sway/workspaces" "sway/mode"];
-      modules-center = ["sway/window"];
-      modules-right = ["memory" "network" "disk" "wireplumber" "battery" "clock"];
-      "sway/window" = {
-        max-length = 50;
-      };
-      battery = {
-        format = "{capacity}% {icon} ";
-        format-icons = ["" "" "" "" ""];
-      };
-      clock = {
-        format = "{:%a, %d. %b  %H:%M}";
-      };
-      network = {
-        format-wifi = "{essid} ({signalStrength}%) ";
-        format-ethernet = "{ipaddr}/{cidr}  ";
-      };
-      disk = {
-        path = "/";
-        format = "DU {percentage_used}%";
-      };
-      wireplumber = {
-        on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-        scroll-step = 5;
-        format = "{node_name} {volume}% {icon}";
-        format-muted = "";
-      };
-      memory = {
-        format = "RAM {percentage}%";
-        interval = 5;
-      };
-    };
-  };
 
   programs.swaylock = {
     enable = true;
@@ -118,7 +79,7 @@ in {
     systemd.enable = true;
   };
   wayland.windowManager.sway = let
-    rofi = "${pkgs.rofi-wayland}/bin/rofi";
+    rofi = "${pkgs.rofi}/bin/rofi";
     rofi-pm = lib.getExe pkgs.rofi-power-menu;
     rofi-menu = ''${rofi} -show combi -combi-modes "pm:${rofi-pm},window,drun" -show-icons -theme solarized'';
     rofi-run = ''${rofi} -show run -theme solarized'';

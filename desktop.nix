@@ -23,7 +23,9 @@
   terminal = assert config.programs.kitty.enable; "kitty";
 in {
   imports = [
-    ./sway.nix
+    # ./sway.nix
+    ./wayland-utils.nix
+    ./hyprland.nix
     ./firefox.nix
   ];
   _module.args = {
@@ -38,10 +40,10 @@ in {
     vlc
     jabref
     feh
-    inkscape
-    signal-desktop
+    # inkscape
+    # signal-desktop
     qpwgraph
-    reaper
+    # reaper
     audacity
     (
       pkgs.writeShellApplication {

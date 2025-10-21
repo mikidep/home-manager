@@ -100,16 +100,6 @@
       	end
       end, 3300, Status.LEFT)
     '';
-
-    keymap = {
-      manager.prepend_keymap = [
-        {
-          on = "T";
-          run = "plugin --sync max-preview";
-          desc = "Maximize or restore the preview pane";
-        }
-      ];
-    };
   };
   programs.nix-index.enable = true;
 }

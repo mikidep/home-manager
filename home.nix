@@ -4,7 +4,7 @@
   ...
 }: {
   imports = [
-    ./vscode.nix
+    # ./vscode.nix
     ./shell.nix
     ./ssh.nix
     ./design_tools.nix
@@ -13,7 +13,7 @@
     ./agda.nix
     ./vpn.nix
     ./nixbuild.nix
-    ./discord.nix
+    # ./discord.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -27,8 +27,8 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    idris2
-    stack
+    # idris2
+    # stack
     archivemount
     trashy
     ffmpeg_6-full
@@ -71,19 +71,21 @@
   programs.home-manager.enable = true;
   programs.git = {
     enable = true;
-    userName = "Michele De Pascalis";
-    userEmail = "michele.de.pascalis.1024@gmail.com";
-    delta.enable = true;
-    extraConfig = {
+    settings = {
+      user.name = "Michele De Pascalis";
+      user.email = "michele.de.pascalis.1024@gmail.com";
       init.defaultBranch = "master";
       advice.defaultBranchName = false;
     };
   };
-
-  programs.obs-studio = {
+  programs.delta = {
     enable = true;
-    plugins = with pkgs.obs-studio-plugins; [
-      droidcam-obs
-    ];
+    enableGitIntegration = true;
   };
+  # programs.obs-studio = {
+  #   enable = true;
+  #   plugins = with pkgs.obs-studio-plugins; [
+  #     droidcam-obs
+  #   ];
+  # };
 }

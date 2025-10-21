@@ -20,16 +20,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sway-workspace = {
-      url = "github:matejc/sway-workspace";
-      flake = false;
-    };
     nix-env-fish = {
       url = "github:lilyball/nix-env.fish";
-      flake = false;
-    };
-    swayws-src = {
-      url = "github:mikidep/swayws";
       flake = false;
     };
     mikidep-neovim = {
@@ -46,10 +38,6 @@
     };
     fuse-archive-yazi = {
       url = "github:dawsers/fuse-archive.yazi";
-      flake = false;
-    };
-    i3-switch-if-workspace-empty = {
-      url = "github:giuseppe-dandrea/i3-switch-if-workspace-empty";
       flake = false;
     };
     nixcord = {
