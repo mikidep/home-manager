@@ -59,4 +59,7 @@
       pkgs.rofi-calc
     ];
   };
+  services.swaync = {
+    enable = true;
+  };
 }

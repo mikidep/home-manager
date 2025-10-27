@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  lib,
   bg,
   ...
 }: {
@@ -27,7 +28,21 @@
     package = pkgs.vanilla-dmz;
     name = "Vanilla-DMZ";
   };
-  wayland.windowManager.hyprland = {
+  wayland.windowManager.hyprland = let
+    vimbind = binder:
+      (binder {
+        left = "left";
+        down = "down";
+        up = "up";
+        right = "right";
+      })
+      ++ (binder {
+        left = "H";
+        down = "J";
+        up = "K";
+        right = "L";
+      });
+  in {
     enable = true;
     settings = {
       input = {
@@ -70,6 +85,7 @@
       bind = assert config.programs.rofi.enable; let
         rofi-menu = ''rofi -show combi -combi-modes "pm,drun,window" -show-icons'';
         rofi-run = ''rofi -show run'';
+        grimshot = lib.getExe pkgs.sway-contrib.grimshot;
       in
         [
           "SUPER, Q, killactive,"
@@ -77,44 +93,59 @@
           "SUPER, RETURN, exec, kitty"
           "SUPER, SPACE, exec, ${rofi-menu}"
           "ALT, F2, exec, ${rofi-run}"
+          ", Print, exec, ${grimshot} copy anything"
+          "SHIFT, Print, exec, ${grimshot} copy output"
+          "CTRL ALT, N,        workspace, emptym"
+          "CTRL ALT SHIFT, N,        movetoworkspace, emptym"
+          "SUPER, R, submap, resize"
         ]
-        ++ (let
-          arrowBinds = {
-            up,
-            down,
-            left,
-            right,
-          }: [
-            "SUPER, ${left},  movefocus, l"
-            "SUPER, ${right}, movefocus, r"
-            "SUPER, ${up},    movefocus, u"
-            "SUPER, ${down},  movefocus, d"
-            "SUPER SHIFT, ${left},  movewindow, l"
-            "SUPER SHIFT, ${right}, movewindow, r"
-            "SUPER SHIFT, ${up},    movewindow, u"
-            "SUPER SHIFT, ${down},  movewindow, d"
-            "CTRL ALT, ${left},  workspace, m-1"
-            "CTRL ALT, ${right}, workspace, m+1"
-            "CTRL ALT, N,        workspace, emptym"
-            "CTRL ALT SHIFT, ${left},  movetoworkspace, m-1"
-            "CTRL ALT SHIFT, ${right}, movetoworkspace, m+1"
-            "CTRL ALT SHIFT, ${up},    movewindow, mon:-1"
-            "CTRL ALT SHIFT, ${down},  movewindow, mon:+1"
-            "CTRL ALT SHIFT, N,        movetoworkspace, emptym"
-          ];
-        in
-          (arrowBinds {
-            left = "left";
-            down = "down";
-            up = "up";
-            right = "right";
-          })
-          ++ (arrowBinds {
-            left = "H";
-            down = "J";
-            up = "K";
-            right = "L";
-          }));
+        ++ vimbind ({
+          up,
+          down,
+          left,
+          right,
+        }: [
+          "SUPER, ${left},  movefocus, l"
+          "SUPER, ${right}, movefocus, r"
+          "SUPER, ${up},    movefocus, u"
+          "SUPER, ${down},  movefocus, d"
+          "SUPER SHIFT, ${left},  movewindow, l"
+          "SUPER SHIFT, ${right}, movewindow, r"
+          "SUPER SHIFT, ${up},    movewindow, u"
+          "SUPER SHIFT, ${down},  movewindow, d"
+          "CTRL ALT, ${left},  workspace, m-1"
+          "CTRL ALT, ${right}, workspace, m+1"
+          "CTRL ALT SHIFT, ${left},  movetoworkspace, m-1"
+          "CTRL ALT SHIFT, ${right}, movetoworkspace, m+1"
+          "CTRL ALT SHIFT, ${up},    movewindow, mon:-1"
+          "CTRL ALT SHIFT, ${down},  movewindow, mon:+1"
+        ]);
+
+      bindl = let
+        unmute = "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0";
+        brightnessctl = lib.getExe pkgs.brightnessctl;
+      in [
+        ", XF86AudioRaiseVolume, exec, ${unmute} && wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, ${unmute} && wpctl set-volume -l 1.4 @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86MonBrightnessUp, exec, ${brightnessctl} s +10%"
+        ", XF86MonBrightnessDown, exec, ${brightnessctl} s 10%-"
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+      ];
     };
+    submaps.resize.settings.bind =
+      (vimbind ({
+        up,
+        down,
+        left,
+        right,
+      }: [
+        ", ${right}, resizeactive, 10 0"
+        ", ${left}, resizeactive, -10 0"
+        ", ${up}, resizeactive, 0 -10"
+        ", ${down}, resizeactive, 0 10"
+      ]))
+      ++ [
+        ", escape, submap, reset"
+      ];
   };
 }

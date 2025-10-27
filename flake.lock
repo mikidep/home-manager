@@ -410,11 +410,11 @@
         "tree-sitter-openscad": "tree-sitter-openscad"
       },
       "locked": {
-        "lastModified": 1760962317,
-        "narHash": "sha256-FAYVbq5JavFdVOGfgfF3xBswH0i9p9md6fZHaJyarTU=",
+        "lastModified": 1761032390,
+        "narHash": "sha256-+QMsIoGwY+M8x/gABARVp4GiY+LLqrLmLImove6oHvA=",
         "owner": "mikidep",
         "repo": "neovim",
-        "rev": "55e897975b0427ec7ffa72ae39c18f4440c085f8",
+        "rev": "7bee6661a0f404344e4cc52ee5bc7d074c4af54f",
         "type": "github"
       },
       "original": {
