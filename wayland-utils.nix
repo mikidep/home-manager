@@ -1,17 +1,25 @@
 {
   pkgs,
   lib,
+  config,
   ...
 }: {
   programs.waybar = {
     enable = true;
     systemd.enable = true;
+    style = lib.mkBefore ''
+      @import url("file://${pkgs.waybar}/etc/xdg/waybar/style.css");
+
+      .modules-right > widget > * {
+          padding: 0 10px;
+      }
+    '';
     settings.mainBar = {
       position = "bottom";
       layer = "top";
       modules-left = ["hyprland/workspaces" "hyprland/submap"];
       modules-center = ["hyprland/window"];
-      modules-right = ["memory" "network" "disk" "wireplumber" "battery" "clock"];
+      modules-right = ["memory" "network" "disk" "wireplumber" "battery" "clock" "custom/notification"];
       "hyprland/window" = {
         max-length = 50;
       };
@@ -39,6 +47,25 @@
       memory = {
         format = "RAM {percentage}%";
         interval = 5;
+      };
+      "custom/notification" = assert config.services.swaync.enable; {
+        tooltip = false;
+        format = "{} {icon}";
+        "format-icons" = {
+          notification = "󱅫";
+          none = "";
+          "dnd-notification" = " ";
+          "dnd-none" = "󰂛";
+          "inhibited-notification" = " ";
+          "inhibited-none" = "";
+          "dnd-inhibited-notification" = " ";
+          "dnd-inhibited-none" = " ";
+        };
+        "return-type" = "json";
+        exec = "swaync-client -swb";
+        "on-click" = "sleep 0.1 && swaync-client -t -sw";
+        "on-click-right" = "sleep 0.1 && swaync-client -d -sw";
+        escape = true;
       };
     };
   };

@@ -5,14 +5,12 @@
   bg,
   ...
 }: {
-  programs.waybar.style =
-    (builtins.readFile "${pkgs.waybar}/etc/xdg/waybar/style.css")
-    + ''
-      #workspaces button.active {
-         background-color: #64727D;
-         box-shadow: inset 0 -3px #ffffff;
-      }
-    '';
+  programs.waybar.style = ''
+    #workspaces button.active {
+       background-color: #64727D;
+       box-shadow: inset 0 -3px #ffffff;
+    }
+  '';
   services.hyprpaper = {
     enable = true;
     settings = {
@@ -74,6 +72,7 @@
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
+        enable_anr_dialog = false;
       };
 
       exec-once = [
@@ -90,6 +89,7 @@
         [
           "SUPER, Q, killactive,"
           "SUPER, F, fullscreen, 1"
+          "SUPER SHIFT, F, togglefloating,"
           "SUPER, RETURN, exec, kitty"
           "SUPER, SPACE, exec, ${rofi-menu}"
           "ALT, F2, exec, ${rofi-run}"
@@ -115,6 +115,8 @@
           "SUPER SHIFT, ${down},  movewindow, d"
           "CTRL ALT, ${left},  workspace, m-1"
           "CTRL ALT, ${right}, workspace, m+1"
+          "CTRL ALT, ${up},  focusmonitor, -1"
+          "CTRL ALT, ${down}, focusmonitor, +1"
           "CTRL ALT SHIFT, ${left},  movetoworkspace, m-1"
           "CTRL ALT SHIFT, ${right}, movetoworkspace, m+1"
           "CTRL ALT SHIFT, ${up},    movewindow, mon:-1"
