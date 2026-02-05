@@ -17,8 +17,10 @@
     settings.mainBar = {
       position = "bottom";
       layer = "top";
-      modules-left = ["hyprland/workspaces" "hyprland/submap"];
-      modules-center = ["hyprland/window"];
+      # modules-left = ["hyprland/workspaces" "hyprland/submap"];
+      # modules-center = ["hyprland/window"];
+      modules-left = ["sway/workspaces" "sway/mode"];
+      modules-center = ["sway/window"];
       modules-right = ["memory" "network" "disk" "wireplumber" "battery" "clock" "custom/notification"];
       "hyprland/window" = {
         max-length = 50;
@@ -81,11 +83,30 @@
         name = "pm";
         path = lib.getExe pkgs.rofi-power-menu;
       }
+      {
+        name = "bib";
+        path = let
+          libpath = "/home/mikidep/Documents/JabRef";
+          rofi-bib = pkgs.writeShellScript "rofi-bib" ''
+            if [ $# -eq 1 ]; then
+              xdg-open "${libpath}/$1" & exit 0
+            else
+              ls -1 --quoting-style literal ${libpath}
+            fi
+          '';
+        in "${rofi-bib}";
+      }
     ];
     plugins = [
       pkgs.rofi-calc
     ];
   };
+  home.packages = with pkgs; [
+    (writeShellApplication {
+      name = "rofi-menu";
+      text = ''rofi -show combi -combi-modes "pm,drun,bib,window" -show-icons'';
+    })
+  ];
   services.swaync = {
     enable = true;
   };

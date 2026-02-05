@@ -18,5 +18,6 @@
         text = ''nvidia-offload openscad "$@"'';
       }
     )
+    kicad-unstable
   ];
 }

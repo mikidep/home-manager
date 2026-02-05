@@ -23,9 +23,9 @@
   terminal = assert config.programs.kitty.enable; "kitty";
 in {
   imports = [
-    # ./sway.nix
+    ./sway.nix
     ./wayland-utils.nix
-    ./hyprland.nix
+    # ./hyprland.nix
     ./firefox.nix
   ];
   _module.args = {

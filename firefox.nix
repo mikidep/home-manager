@@ -57,7 +57,7 @@
       bind n findnext --search-from-view
       bind N findnext --search-from-view --reverse
       bind ;a composite hint -F a => a.getAttribute('href') | yank
-      # bind f hint -Jc a
+      bind f hint -J
       # bind F hint -Jbc a
 
       set smoothscroll true

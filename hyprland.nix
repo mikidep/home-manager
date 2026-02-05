@@ -4,7 +4,18 @@
   lib,
   bg,
   ...
-}: {
+}: let
+  update-lid =
+    pkgs.writeShellScript
+    "update-lid"
+    ''
+      if grep -q open /proc/acpi/button/lid/LID/state; then
+        hyprctl keyword monitor "eDP-1, preferred, auto, auto"
+      else
+        hyprctl keyword monitor "eDP-1, disable"
+      fi
+    '';
+in {
   programs.waybar.style = ''
     #workspaces button.active {
        background-color: #64727D;
@@ -81,8 +92,13 @@
         "[workspace name:IM silent] whatsapp"
         "[workspace name:IM silent] Telegram"
       ];
+
+      exec = [
+        "${update-lid}"
+      ];
+
       bind = assert config.programs.rofi.enable; let
-        rofi-menu = ''rofi -show combi -combi-modes "pm,drun,window" -show-icons'';
+        rofi-menu = ''rofi -show combi -combi-modes "pm,drun,bib,window" -show-icons'';
         rofi-run = ''rofi -show run'';
         grimshot = lib.getExe pkgs.sway-contrib.grimshot;
       in
@@ -132,6 +148,7 @@
         ", XF86MonBrightnessUp, exec, ${brightnessctl} s +10%"
         ", XF86MonBrightnessDown, exec, ${brightnessctl} s 10%-"
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", switch:Lid Switch, exec, ${update-lid}"
       ];
     };
     submaps.resize.settings.bind =

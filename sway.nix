@@ -26,12 +26,20 @@ in {
         pkg = {
           lib,
           rustPlatform,
-        }:
+          fetchFromGitHub,
+        }: let
+          src = fetchFromGitHub {
+            owner = "mikidep";
+            repo = "swayws";
+            rev = "cff04fa";
+            hash = "sha256-oJuhQA8IJvzh6iw0l5B/cvj4Wi0+k/8hY8imiykDS0k=";
+          };
+        in
           rustPlatform.buildRustPackage {
             pname = "swayws";
             version = "1.2.0-mikidep";
-            src = inputs.swayws-src;
-            cargoLock.lockFile = "${inputs.swayws-src}/Cargo.lock";
+            inherit src;
+            cargoLock.lockFile = "${src}/Cargo.lock";
 
             # swayws does not have any tests
             doCheck = false;
@@ -79,9 +87,8 @@ in {
     systemd.enable = true;
   };
   wayland.windowManager.sway = let
-    rofi = "${pkgs.rofi}/bin/rofi";
-    rofi-pm = lib.getExe pkgs.rofi-power-menu;
-    rofi-menu = ''${rofi} -show combi -combi-modes "pm:${rofi-pm},window,drun" -show-icons -theme solarized'';
+    rofi = "rofi";
+    rofi-menu = "rofi-menu";
     rofi-run = ''${rofi} -show run -theme solarized'';
     inherit terminal; # redundant
   in {
@@ -126,11 +133,16 @@ in {
         (
           let
             sway-workspace = let
-              repo = inputs.sway-workspace;
+              src = pkgs.fetchFromGitHub {
+                owner = "matejc";
+                repo = "sway-workspace";
+                rev = "d89d3e9";
+                hash = "sha256-8rxO/jvLLRwU7LVX4UxA65+/1BI3rK5uJXkKIGbs5as=";
+              };
               pkg = pkgs.rustPlatform.buildRustPackage {
                 name = "sway-workspace";
-                src = repo;
-                cargoLock.lockFile = "${repo}/Cargo.lock";
+                inherit src;
+                cargoLock.lockFile = "${src}/Cargo.lock";
               };
             in
               lib.getExe' pkg "sway-workspace";
@@ -254,8 +266,14 @@ in {
         }
         {
           command = let
+            src = pkgs.fetchFromGitHub {
+              owner = "giuseppe-dandrea";
+              repo = "i3-switch-if-workspace-empty";
+              rev = "8c033c1";
+              hash = "sha256-26AdZPUQA9hZjjoqduBP6i7EtbtKWBTkOwIG2bJlxIc=";
+            };
             python-i3ipc = lib.getExe (pkgs.python312.withPackages (p: [p.i3ipc]));
-          in "${python-i3ipc} ${inputs.i3-switch-if-workspace-empty}/i3-switch-if-workspace-empty";
+          in "${python-i3ipc} ${src}/i3-switch-if-workspace-empty";
           always = true;
         }
       ];
