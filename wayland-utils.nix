@@ -89,9 +89,10 @@
           libpath = "/home/mikidep/Documents/JabRef";
           rofi-bib = pkgs.writeShellScript "rofi-bib" ''
             if [ $# -eq 1 ]; then
-              xdg-open "${libpath}/$1" & exit 0
+              coproc (xdg-open "${libpath}/$1")
+              exit 0
             else
-              ls -1 --quoting-style literal ${libpath}
+              ls -1 --quoting-style literal ${libpath} | grep '\.pdf$'
             fi
           '';
         in "${rofi-bib}";

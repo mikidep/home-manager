@@ -199,10 +199,11 @@ in {
             "Mod4+space" = "exec ${rofi-menu}";
             "Mod4+V" = "layout toggle all";
             "Mod4+S" = "split toggle";
-            "Shift+Mod4+Q" = "kill";
+            "Mod4+Q" = "kill";
             "Mod4+Return" = "exec ${terminal}";
             "Mod4+R" = "mode resize";
-            "Mod4+F" = "floating toggle";
+            "Mod4+F" = "fullscreen toggle";
+            "Shift+Mod4+F" = "floating toggle";
 
             "Print" = "exec ${grimshot} copy anything";
             "Shift+Print" = "exec ${grimshot} copy output";
