@@ -297,7 +297,7 @@ in {
       exec firefox
       workspace 2
       exec ${terminal}
-      exec telegram-desktop
+      exec Telegram
       exec whatsapp
     '';
   };

@@ -74,6 +74,7 @@
     settings = {
       user.name = "Michele De Pascalis";
       user.email = "michele.de.pascalis.1024@gmail.com";
+      pull.rebase = true;
       init.defaultBranch = "master";
       advice.defaultBranchName = false;
     };
