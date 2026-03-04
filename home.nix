@@ -14,6 +14,7 @@
     ./vpn.nix
     ./nixbuild.nix
     # ./discord.nix
+    ./backup.nix
   ];
 
   # Home Manager needs a bit of information about you and the
@@ -64,7 +65,11 @@
       options = "--delete-older-than 7d";
     };
     registry.nixpkgs.flake = inputs.nixpkgs;
-    settings.experimental-features = ["nix-command" "flakes"];
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      cores = 8;
+      max-jobs = 4;
+    };
   };
 
   # Let Home Manager install and manage itself.

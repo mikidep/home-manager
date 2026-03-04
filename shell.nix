@@ -38,6 +38,11 @@
         expansion = "nix run nixpkgs#%";
         setCursor = true;
       };
+      onixp = {
+        position = "anywhere";
+        command = "nix";
+        expansion = "--override-input nixpkgs nixpkgs";
+      };
     };
     interactiveShellInit = let
       nix-your-shell = lib.getExe pkgs.nix-your-shell;

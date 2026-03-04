@@ -41,7 +41,9 @@
         format = "DU {percentage_used}%";
       };
       wireplumber = {
-        on-click = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        on-click = let
+          wpctl = "${pkgs.wireplumber}/bin/wpctl";
+        in "${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
         scroll-step = 5;
         format = "{node_name} {volume}% {icon}";
         format-muted = "";
@@ -105,7 +107,7 @@
   home.packages = with pkgs; [
     (writeShellApplication {
       name = "rofi-menu";
-      text = ''rofi -show combi -combi-modes "pm,drun,bib,window" -show-icons'';
+      text = ''rofi -show combi -combi-modes "pm,drun,bib" -show-icons'';
     })
   ];
   services.swaync = {
