@@ -37,24 +37,6 @@
         "type": "github"
       }
     },
-    "blink-cmp-agda-symbols": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1761054707,
-        "narHash": "sha256-tgJuFKG0YZkJPyC57fBBWjrInuvtwPlAg9WUQ/ziemU=",
-        "ref": "refs/heads/main",
-        "rev": "662353455f91c68f406bf7204754d035e3ef28ae",
-        "revCount": 20,
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/4e554c4c/blink-cmp-agda-symbols.git"
-      },
-      "original": {
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/4e554c4c/blink-cmp-agda-symbols.git"
-      }
-    },
     "cmp-vimtex": {
       "flake": false,
       "locked": {
@@ -428,7 +410,6 @@
     "mikidep-neovim": {
       "inputs": {
         "agda-symbols": "agda-symbols",
-        "blink-cmp-agda-symbols": "blink-cmp-agda-symbols",
         "cmp-vimtex": "cmp-vimtex",
         "cornelis": "cornelis",
         "flake-parts": "flake-parts",
@@ -450,11 +431,11 @@
         "tree-sitter-openscad": "tree-sitter-openscad"
       },
       "locked": {
-        "lastModified": 1772468831,
-        "narHash": "sha256-EUXLkah8rYE7G8kP5qYd0xTgk2+NkRZF38aILyy2Me4=",
+        "lastModified": 1773129249,
+        "narHash": "sha256-n6StO+yqIr2gs4DOJxYHiYzpFIggpA7BhDam15dZ2z8=",
         "owner": "mikidep",
         "repo": "neovim",
-        "rev": "4d1ec30d27c507ef429c65532df865315db63236",
+        "rev": "5b7eea7f52b2cf93cf1f6425c47655c40cb4e57a",
         "type": "github"
       },
       "original": {

@@ -8,7 +8,6 @@
   home.packages = with pkgs; [
     htop
     fortune
-    zoxide
     bat
     killall
     screen
@@ -50,7 +49,6 @@
       set fish_greeting # Disable greeting
       fish_add_path .local/bin/
       set EDITOR nvim
-      zoxide init fish --cmd cd | source
       ${nix-your-shell} fish | source
     '';
     plugins = [
@@ -58,6 +56,13 @@
         name = "nix-env";
         src = inputs.nix-env-fish;
       }
+    ];
+  };
+  programs.zoxide = {
+    enable = true;
+    enableFishIntegration = true;
+    options = [
+      "--cmd cd"
     ];
   };
   programs.starship = {
