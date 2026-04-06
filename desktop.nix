@@ -23,7 +23,7 @@
   terminal = assert config.programs.kitty.enable; "kitty";
 in {
   imports = [
-    ./sway.nix
+    ./sway
     ./wayland-utils.nix
     # ./hyprland.nix
     ./firefox.nix
@@ -41,7 +41,7 @@ in {
     jabref
     feh
     # inkscape
-    # signal-desktop
+    signal-desktop
     qpwgraph
     # reaper
     audacity

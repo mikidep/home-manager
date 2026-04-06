@@ -4,7 +4,6 @@
   ...
 }: {
   imports = [
-    # ./vscode.nix
     ./shell.nix
     ./ssh.nix
     ./design_tools.nix
@@ -13,8 +12,8 @@
     ./agda.nix
     ./vpn.nix
     ./nixbuild.nix
-    # ./discord.nix
     ./backup.nix
+    ./containers.nix
   ];
 
   # Home Manager needs a bit of information about you and the
