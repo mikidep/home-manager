@@ -2,10 +2,12 @@
   pkgs,
   lib,
   nur,
+  config,
   ...
 }: {
   programs.firefox = {
     enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     nativeMessagingHosts = with pkgs; [
       tridactyl-native
     ];
@@ -52,10 +54,10 @@
     ''
       bind J tabnext
       bind K tabprev
-      bind / fillcmdline find
-      bind ? fillcmdline find --reverse
-      bind n findnext --search-from-view
-      bind N findnext --search-from-view --reverse
+      # bind / fillcmdline find
+      # bind ? fillcmdline find --reverse
+      # bind n findnext --search-from-view
+      # bind N findnext --search-from-view --reverse
       bind ;a composite hint -F a => a.getAttribute('href') | yank
       bind f hint -J
       # bind F hint -Jbc a

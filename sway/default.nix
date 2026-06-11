@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  config,
   bg,
   terminal,
   ...
@@ -29,9 +28,7 @@ in {
   ];
 
   wayland.windowManager.sway = let
-    rofi = "rofi";
-    rofi-menu = "rofi-menu";
-    rofi-run = ''${rofi} -show run -theme solarized'';
+    noctalia-launcher = "noctalia-shell ipc call launcher toggle";
   in {
     enable = true;
     # using system config executable otherwise
@@ -110,8 +107,7 @@ in {
           in {
             "Ctrl+Alt+N" = "exec ${sway-nw} open";
             "Ctrl+Alt+Shift+N" = "exec ${sway-nw} move";
-            "Alt+F2" = "exec ${rofi-run}";
-            "Mod4+space" = "exec ${rofi-menu}";
+            "Mod4+space" = "exec ${noctalia-launcher}";
             "Mod4+V" = "layout toggle all";
             "Mod4+S" = "split toggle";
             "Mod4+Q" = "kill";
@@ -160,7 +156,7 @@ in {
           {app_id = "telegram";}
         ];
       };
-      menu = rofi-menu;
+      menu = noctalia-launcher;
       modifier = "Mod4";
 
       bars = [];
@@ -208,11 +204,12 @@ in {
       bindsym --whole-window BTN_EXTRA nop
       bindsym --whole-window --release BTN_EXTRA nop
 
+      exec noctalia-shell
       workspace 1
       exec firefox
       workspace 2
       exec ${terminal}
-      exec Telegram
+      exec XDG_CURRENT_DESKTOP=GNOME Telegram
       exec whatsapp
     '';
   };

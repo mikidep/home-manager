@@ -18,11 +18,16 @@
     };
     backups.main = let
       path = config.home.homeDirectory + "/Documents";
-      exclude-gitignore = pkgs.writeScript "exclude-gitignore" ''
-        find ${path} -type f -name ".gitignore" -printf "%h\n" | \
-          xargs -I '{}' bash -c "egrep -v '^(\s*|#.*)$' \"{}/.gitignore\" | awk '{print \"{}/\" \$0}' " \
-          > /tmp/exclude-backup
-      '';
+      exclude-gitignore = (
+        pkgs.writeShellApplication {
+          name = "exclude-gitignore";
+          text = ''
+            find ${path} -type f -name ".gitignore" -printf "%h\n" | \
+              xargs -I '{}' bash -c "egrep -v '^(\s*|#.*)$' \"{}/.gitignore\" | awk '{print \"{}/\" \$0}' " \
+              > /tmp/exclude-backup
+          '';
+        }
+      );
     in {
       location = {
         repositories = ["ssh://kspace-vps/~/documents-repo"];
@@ -39,9 +44,7 @@
         {
           before = "action";
           when = ["create"];
-          run = [
-            (builtins.toString exclude-gitignore)
-          ];
+          run = ["${exclude-gitignore}/bin/exclude-gitignore"];
         }
       ];
     };

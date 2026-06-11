@@ -24,8 +24,8 @@
 in {
   imports = [
     ./sway
-    ./wayland-utils.nix
-    # ./hyprland.nix
+    # ./wayland-utils.nix
+    ./noctalia.nix
     ./firefox.nix
   ];
   _module.args = {
@@ -71,7 +71,7 @@ in {
       scrollback_pager = ''nvim -c "silent write! /tmp/kitty_scrollback_buffer | te cat /tmp/kitty_scrollback_buffer - "'';
     };
     keybindings = {
-      # "f1" = "show_scrollback";
+      "ctrl+shift+w" = "";
     };
     font.name = "Iosevka Term NFM";
     font.size = 16;
@@ -93,6 +93,20 @@ in {
             { cmd = "load-module" args = "module-switch-on-connect" }
         ]
       '';
+    };
+
+    dataFile = {
+      "TelegramDesktop/tdata/shortcuts-custom.json".text =
+        builtins.toJSON
+        (map (l: {
+            command = builtins.elemAt l 0;
+            keys = builtins.elemAt l 1;
+          }) [
+            ["next_chat" "ctrl+tab"]
+            ["previous_chat" "ctrl+shift+tab"]
+            [null "alt+up"]
+            [null "alt+down"]
+          ]);
     };
 
     # Adapted from
