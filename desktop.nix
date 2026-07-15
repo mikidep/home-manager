@@ -73,8 +73,11 @@ in {
     keybindings = {
       "ctrl+shift+w" = "";
     };
-    font.name = "Iosevka Term NFM";
-    font.size = 16;
+    font.name = "JuliaMono";
+    font.size = 15;
+    extraConfig = ''
+      modify_font cell_width 90%
+    '';
   };
 
   systemd.user.startServices = true;

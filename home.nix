@@ -32,19 +32,22 @@
     archivemount
     trashy
     ffmpeg_6-full
-    nerd-fonts.arimo
+    iosevka
+    nerd-fonts.agave
     nerd-fonts.iosevka
     nerd-fonts.iosevka-term
+    nerd-fonts.dejavu-sans-mono
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
+    julia-mono
     alsa-tools
   ];
 
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
-      sansSerif = ["Arimo Nerd Font" "Noto Sans CJK CS"];
-      monospace = ["IosevkaTerm NFM"];
+      sansSerif = ["Noto Sans CJK CS"];
+      monospace = ["JuliaMono"];
     };
   };
   # This value determines the Home Manager release that your
