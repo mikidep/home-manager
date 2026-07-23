@@ -20,7 +20,7 @@
   in
     drv.outPath;
   # could this be refactored using xdg terminal?
-  terminal = assert config.programs.kitty.enable; "kitty";
+  terminal = assert config.programs.foot.enable; "foot";
 in {
   imports = [
     ./sway
@@ -64,6 +64,15 @@ in {
   };
 
   programs.zathura.enable = true;
+
+  programs.foot = {
+    enable = true;
+    settings = {
+      main.font = "JuliaMono:size=15";
+      main.letter-spacing = -1;
+      main.include = "${pkgs.foot.themes}/share/foot/themes/kitty";
+    };
+  };
 
   programs.kitty = {
     enable = true;
