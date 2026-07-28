@@ -29,10 +29,6 @@
     };
     mikidep-neovim = {
       url = "github:mikidep/neovim";
-      # inputs.nixpkgs.follows = "nixpkgs";
-    };
-    agda-index = {
-      url = "github:phijor/agda-index";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     yazi-plugins = {

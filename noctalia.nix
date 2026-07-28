@@ -1,5 +1,5 @@
 {bg, ...}: {
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
     settings = {
       general = {
@@ -32,6 +32,8 @@
               showCpuUsage = false;
               showCpuTemp = false;
               showMemoryAsPercent = true;
+              showDiskUsage = true;
+              showDiskUsageAsPercent = true;
             }
             {
               id = "Bluetooth";
