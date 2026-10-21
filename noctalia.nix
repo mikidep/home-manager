@@ -1,5 +1,5 @@
 {bg, ...}: {
-  programs.noctalia = {
+  programs.noctalia-shell = {
     enable = true;
     settings = {
       general = {

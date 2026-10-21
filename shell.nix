@@ -14,6 +14,7 @@
     inputs.mikidep-neovim.packages.x86_64-linux.default
     lazygit
     mmtui
+    codex
   ];
   programs.fish = {
     enable = true;

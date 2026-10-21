@@ -1,4 +1,8 @@
 {
+  lib,
+  config,
+  ...
+}: {
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
@@ -27,4 +31,18 @@
       };
     };
   };
+
+  # # Introduced because Borgmatic SSH shenanigans
+  #
+  # home.activation.sshConfigMode = lib.hm.dag.entryAfter ["linkGeneration"] ''
+  #   cfg="${config.home.homeDirectory}/.ssh/config"
+  #   if [[ -L $cfg ]]; then
+  #     real=$(readlink -f "$cfg")
+  #     rm -f "$cfg"
+  #     cp -f "$real" "$cfg"
+  #     chmod 600 "$cfg"
+  #   elif [[ -f $cfg ]]; then
+  #     chmod 600 "$cfg"
+  #   fi
+  # '';
 }

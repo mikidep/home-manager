@@ -50,7 +50,9 @@
       '';
     };
   };
-  xdg.configFile."tridactyl/tridactylrc".text =
+  xdg.configFile."tridactyl/tridactylrc".text = let
+    editorcmd = assert config.programs.foot.enable; "foot nvim";
+  in
     ''
       bind J tabnext
       bind K tabprev
@@ -64,6 +66,7 @@
 
       set smoothscroll true
       set blacklistkeys ['/']
+      set editorcmd ${editorcmd}
 
       bindurl www.google.com f hint -Jc #search a
       bindurl www.google.com F hint -Jbc #search a

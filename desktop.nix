@@ -23,7 +23,6 @@
 in {
   imports = [
     ./sway
-    # ./wayland-utils.nix
     ./noctalia.nix
     ./firefox.nix
   ];
@@ -39,10 +38,8 @@ in {
     vlc
     jabref
     feh
-    # inkscape
     signal-desktop
     qpwgraph
-    # reaper
     audacity
     (
       pkgs.writeShellApplication {
@@ -67,25 +64,10 @@ in {
   programs.foot = {
     enable = true;
     settings = {
-      main.font = "JuliaMono:size=15";
+      main.font = "JuliaMono Nerd Font:size=13.5";
       main.letter-spacing = -1;
       main.include = "${pkgs.foot.themes}/share/foot/themes/kitty";
     };
-  };
-
-  programs.kitty = {
-    enable = true;
-    settings = {
-      scrollback_pager = ''nvim -c "silent write! /tmp/kitty_scrollback_buffer | te cat /tmp/kitty_scrollback_buffer - "'';
-    };
-    keybindings = {
-      "ctrl+shift+w" = "";
-    };
-    font.name = "JuliaMono";
-    font.size = 15;
-    extraConfig = ''
-      modify_font cell_width 90%
-    '';
   };
 
   systemd.user.startServices = true;
@@ -158,7 +140,8 @@ in {
       type = "Application";
       name = "Yazi";
       comment = "Launch Yazi";
-      exec = assert config.programs.yazi.enable; assert config.programs.kitty.enable; "kitty --hold yazi %U";
+      exec = assert config.programs.yazi.enable;
+      assert config.programs.foot.enable; "foot --hold yazi %U";
       terminal = false;
     };
     mimeApps = {

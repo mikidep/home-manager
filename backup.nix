@@ -4,6 +4,10 @@
   ...
 }: {
   programs.borgmatic = {
+    # TODO: broken
+    # ~ systemd-analyze --user verify borgmatic.service
+    # borgmatic.timer: Failed to open /home/mikidep/.config/systemd/user/borgmatic.timer: No such file or directory
+    # Also SSH shenanigans
     enable = true;
     package = pkgs.symlinkJoin {
       name = "borgmatic";
@@ -29,24 +33,22 @@
         }
       );
     in {
-      location = {
+      settings = {
         repositories = ["ssh://kspace-vps/~/documents-repo"];
         patterns = [
           "R ${path}"
           "- **/.git"
           "- **/result"
         ];
-        extraConfig = {
-          exclude_from = ["/tmp/exclude-backup"];
-        };
+        commands = [
+          {
+            before = "action";
+            when = ["create"];
+            run = ["${exclude-gitignore}/bin/exclude-gitignore"];
+          }
+        ];
+        exclude_from = ["/tmp/exclude-backup"];
       };
-      hooks.extraConfig.commands = [
-        {
-          before = "action";
-          when = ["create"];
-          run = ["${exclude-gitignore}/bin/exclude-gitignore"];
-        }
-      ];
     };
   };
 }

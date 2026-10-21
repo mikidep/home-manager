@@ -6,7 +6,7 @@
   imports = [
     ./shell.nix
     ./ssh.nix
-    ./design_tools.nix
+    ./design-tools.nix
     ./eid.nix
     ./nix-tools.nix
     ./agda.nix
@@ -27,19 +27,13 @@
 
   # Packages that should be installed to the user profile.
   home.packages = with pkgs; [
-    # idris2
-    # stack
     archivemount
     trashy
     ffmpeg_6-full
-    iosevka
-    nerd-fonts.agave
-    nerd-fonts.iosevka
-    nerd-fonts.iosevka-term
-    nerd-fonts.dejavu-sans-mono
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
-    julia-mono
+    # julia-mono
+    (callPackage (import ./packages/julia-mono-nf.nix) {})
     alsa-tools
   ];
 
@@ -47,7 +41,7 @@
     enable = true;
     defaultFonts = {
       sansSerif = ["Noto Sans CJK CS"];
-      monospace = ["JuliaMono"];
+      monospace = ["JuliaMono Nerd Font"];
     };
   };
   # This value determines the Home Manager release that your
