@@ -26,11 +26,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790235799,
-        "narHash": "sha256-xEpo/rFIKjEGrTQKD5nIc+5CSMzFO251K9S0eaarL/E=",
+        "lastModified": 1793176259,
+        "narHash": "sha256-Q5zE5rmxFjf5SHQntyK4Yl+rE6mYtLANK7iNwFWyxJI=",
         "owner": "mikidep",
         "repo": "cornelis",
-        "rev": "64cdb6a45dd28454418acb285b3a8580aa28d1ea",
+        "rev": "a0986550b2294d0c6615f9265333a68d7253a632",
         "type": "github"
       },
       "original": {
@@ -316,11 +316,11 @@
         "vim-maximizer": "vim-maximizer"
       },
       "locked": {
-        "lastModified": 1792578191,
-        "narHash": "sha256-iU0XcWQ7pyswlJXPYxcktBoCZfKVASaBIElqSsG+lDs=",
+        "lastModified": 1793176333,
+        "narHash": "sha256-dtxujcRAmhRaztHjmpg0Nm3Tjfk73rrluWWLvhZH+h4=",
         "owner": "mikidep",
         "repo": "neovim",
-        "rev": "34147591ea97ab136077d2501b44f2b8dcb3b496",
+        "rev": "390c8cc6de303d20216c9e3e39dd5f4baa156335",
         "type": "github"
       },
       "original": {
@@ -502,16 +502,15 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1751274312,
-        "narHash": "sha256-/bVBlRpECLVzjV19t5KMdMFWSwKLtb5RyXdjz3LJT+g=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "50ab793786d9de88ee30ec4e4c24fb4236fc2674",
-        "type": "github"
+        "lastModified": 1793015021,
+        "narHash": "sha256-b5F1sFDgU/kyvmlntbK77aB9KAQn2z4E07Wz20ZVnPM=",
+        "rev": "718f670e845328e9c2cecdd832835712b2cbd065",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.12707.718f670e8453/nixexprs.tar.zst"
       },
       "original": {
         "id": "nixpkgs",
-        "ref": "nixos-24.11",
+        "ref": "nixos-26.05",
         "type": "indirect"
       }
     },

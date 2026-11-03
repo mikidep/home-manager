@@ -1,10 +1,14 @@
-{pkgs, nur, ...}: {
+{
+  pkgs,
+  nur,
+  ...
+}: {
   home.packages = with pkgs; [
     opensc
     web-eid-app
+    qdigidoc
   ];
   programs.firefox = {
-    # package = pkgs.firefox-esr;
     nativeMessagingHosts = [
       pkgs.web-eid-app
     ];

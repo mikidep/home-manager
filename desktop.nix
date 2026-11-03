@@ -58,8 +58,15 @@ in {
       kdePackages.fcitx5-chinese-addons
     ];
   };
-
-  programs.zathura.enable = true;
+  programs.zathura = {
+    enable = true;
+    options = {
+      adjust-open = "width";
+      highlight-active-color = "rgba(0,188,0,0.2)";
+      highlight-color = "rgba(159,251,0,0.2)";
+      selection-clipboard = "clipboard";
+    };
+  };
 
   programs.foot = {
     enable = true;

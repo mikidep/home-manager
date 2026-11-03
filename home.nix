@@ -60,7 +60,46 @@
       automatic = true;
       options = "--delete-older-than 7d";
     };
-    registry.nixpkgs.flake = inputs.nixpkgs;
+    registry = {
+      # Cursed. Override with --no-use-registries
+      n.flake = inputs.nixpkgs;
+      nixpkgs.flake = inputs.nixpkgs;
+      nixpkgs2 = {
+        from = {
+          type = "indirect";
+          id = "nixpkgs";
+          ref = "nixos-unstable";
+        };
+        flake = inputs.nixpkgs;
+      };
+      nixpkgs-gh = {
+        from = {
+          type = "github";
+          owner = "NixOS";
+          repo = "nixpkgs";
+        };
+        flake = inputs.nixpkgs;
+      };
+      nixpkgs-gh2 = {
+        from = {
+          type = "github";
+          owner = "NixOS";
+          repo = "nixpkgs";
+          ref = "nixos-unstable";
+        };
+        flake = inputs.nixpkgs;
+      };
+      nixpkgs-gh3 = {
+        from = {
+          type = "github";
+          owner = "NixOS";
+          repo = "nixpkgs";
+          ref = "nixpkgs-unstable";
+        };
+        flake = inputs.nixpkgs;
+      };
+    };
+
     settings = {
       experimental-features = ["nix-command" "flakes"];
       cores = 8;

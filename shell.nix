@@ -22,7 +22,7 @@
       file-manager = assert config.programs.yazi.enable; "yazi";
     in {
       hms = "home-manager --flake ~/dotfiles/home-manager switch";
-      nvm = "nix run ~/dotfiles/neovim --override-input nixpkgs nixpkgs --";
+      nvm = "nix run ~/dotfiles/neovim --";
       cat = "bat";
       gc = "git clone $(wl-paste)";
       nmtui = "nmcli device wifi rescan && command nmtui";
@@ -38,11 +38,11 @@
         expansion = "nix run nixpkgs#%";
         setCursor = true;
       };
-      onixp = {
-        position = "anywhere";
-        command = "nix";
-        expansion = "--override-input nixpkgs nixpkgs";
-      };
+      # onixp = {
+      #   position = "anywhere";
+      #   command = "nix";
+      #   expansion = "--override-input nixpkgs nixpkgs";
+      # };
     };
     interactiveShellInit = let
       nix-your-shell = lib.getExe pkgs.nix-your-shell;
